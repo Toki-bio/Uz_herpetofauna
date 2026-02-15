@@ -33,6 +33,7 @@
             </div>
             
             <div class="nav-footer">
+                <a href="#compare" onclick="showSection('compare')">Compare</a>
                 <a href="#literature" onclick="showSection('literature')">Literature</a>
                 <a href="#research" onclick="showSection('research')">Research</a>
                 <a href="#about" onclick="showSection('about')">About</a>
@@ -68,6 +69,20 @@
             <div id="research-section" class="content-section">
                 <h2>Research Plans</h2>
                 <div id="research-container"></div>
+            </div>
+
+            <!-- Species Comparison / Determination Section -->
+            <div id="compare-section" class="content-section">
+                <h2>Species Comparison &amp; Determination</h2>
+                <p class="compare-intro">Select 2–6 species to compare diagnostic phenotypic traits and identify distinguishing characters for field determination.</p>
+                <div class="compare-controls">
+                    <select id="compare-species-select"></select>
+                    <button id="compare-add-btn" class="compare-add-btn">+ Add</button>
+                </div>
+                <div id="compare-tags" class="compare-tags"></div>
+                <div id="compare-result" class="compare-result">
+                    <p class="compare-hint">Select at least 2 species to compare distinguishing traits.</p>
+                </div>
             </div>
 
             <!-- About Section -->

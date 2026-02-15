@@ -18,6 +18,7 @@ function initializeApp() {
     displayResearch(researchPlans);
     setupEventListeners();
     expandAllTreeNodes();
+    initCompare();
 }
 
 function updateStatistics() {
@@ -112,6 +113,34 @@ function linkifyCitation(text) {
     text = text.replace(/\b(10\.\d{4,}\/[^\s,;)]+)/g, '<a href="https://doi.org/$1" target="_blank">$1</a>');
     // URL pattern (https or http)
     text = text.replace(/(?<!href=")(https?:\/\/[^\s<,;)]+)/g, '<a href="$1" target="_blank">$1</a>');
+    return text;
+}
+
+// Extract title portion from a citation string for search
+function extractCitationTitle(citation) {
+    // Try to find text after year in parens, before the journal
+    const m = citation.match(/\(\d{4}\)\.?\s*(.+?)[\.\?!]/);
+    if (m) return m[1].substring(0, 80);
+    // Fallback: use first 80 chars
+    return citation.substring(0, 80);
+}
+
+// Auto-italicize binomial species names in text
+function italicizeSpeciesNames(text) {
+    if (!text) return '';
+    // Build a set of known species/genus names
+    const genera = new Set();
+    speciesData.forEach(s => {
+        genera.add(s.scientificName.split(' ')[0]);
+    });
+    // Match Genus species (capital + lowercase)
+    text = text.replace(/\b([A-Z][a-z]+)\s+([a-z]{2,}(?:\s+[a-z]+)?)\b/g, function(match, g, sp) {
+        if (genera.has(g)) return '<i>' + g + ' ' + sp + '</i>';
+        // Also match abbreviated genus: E. velox etc.
+        return match;
+    });
+    // Match abbreviated genus names: B. viridis, E. velox etc.
+    text = text.replace(/\b([A-Z])\.\s+([a-z]{2,})\b/g, '<i>$1. $2</i>');
     return text;
 }
 
@@ -391,7 +420,7 @@ function displaySpeciesDetail(species) {
         descriptionHtml = `
             <div class="species-section">
                 <h3>Description${editBtn('description', species)}</h3>
-                <div class="description-text">${species.description}</div>
+                <div class="description-text">${italicizeSpeciesNames(species.description)}</div>
                 <div id="edit-description" class="edit-field"></div>
             </div>`;
     }
@@ -404,10 +433,16 @@ function displaySpeciesDetail(species) {
                 <h3>Publications (${species.publications.length})</h3>
                 ${species.publications.map(p => {
                     const typeClass = 'pub-type-' + (p.type || 'review');
+                    // Extract a short search term from citation (first ~60 chars of title part)
+                    const searchTerm = extractCitationTitle(p.citation);
                     return `<div class="publication-item">
                         <span class="pub-citation">${linkifyCitation(p.citation)}</span>
                         <span class="pub-type ${typeClass}">${p.type || ''}</span>
-                        ${p.url ? `<a href="${p.url}" target="_blank" class="pub-link">View</a>` : ''}
+                        <span class="pub-links">
+                            ${p.url ? `<a href="${p.url}" target="_blank" class="pub-link" title="Source">🔗</a>` : ''}
+                            <a href="https://scholar.google.com/scholar?q=${encodeURIComponent(searchTerm)}" target="_blank" class="pub-link" title="Google Scholar">📚</a>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(searchTerm)}" target="_blank" class="pub-link" title="PubMed">🔬</a>
+                        </span>
                         ${p.note ? `<div class="pub-note">${p.note}</div>` : ''}
                     </div>`;
                 }).join('')}
@@ -463,7 +498,7 @@ function displaySpeciesDetail(species) {
         ${species.notes ? `
             <div class="species-section">
                 <h3>Notes${editBtn('notes', species)}</h3>
-                <p>${species.notes}</p>
+                <p>${italicizeSpeciesNames(species.notes)}</p>
                 <div id="edit-notes" class="edit-field"></div>
             </div>
         ` : ''}
@@ -628,6 +663,7 @@ function showSection(name) {
     else if (name === 'literature') document.getElementById('literature-section').classList.add('active');
     else if (name === 'research') document.getElementById('research-section').classList.add('active');
     else if (name === 'about') document.getElementById('about-section').classList.add('active');
+    else if (name === 'compare') document.getElementById('compare-section').classList.add('active');
 }
 
 // ═══════════════════════════════════════════
@@ -676,5 +712,226 @@ function setupEventListeners() {
     // Close overlay on background click
     document.getElementById('password-overlay').addEventListener('click', function(e) {
         if (e.target === this) cancelPassword();
+    });
+
+    // Compare tool - species select
+    document.getElementById('compare-add-btn').addEventListener('click', function() {
+        const sel = document.getElementById('compare-species-select');
+        const name = sel.value;
+        if (!name) return;
+        addCompareSpecies(name);
+        sel.value = '';
+    });
+}
+
+// ═══════════════════════════════════════════
+// Species Comparison / Determination Tool
+// ═══════════════════════════════════════════
+let compareList = [];
+
+function initCompare() {
+    const select = document.getElementById('compare-species-select');
+    if (!select) return;
+    select.innerHTML = '<option value="">— Select species —</option>';
+    const sorted = [...speciesData].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+    sorted.forEach(sp => {
+        const opt = document.createElement('option');
+        opt.value = sp.scientificName;
+        opt.textContent = sp.scientificName + (sp.commonName ? ' (' + sp.commonName + ')' : '');
+        select.appendChild(opt);
+    });
+}
+
+function addCompareSpecies(name) {
+    if (compareList.includes(name)) return;
+    if (compareList.length >= 6) { alert('Max 6 species for comparison'); return; }
+    compareList.push(name);
+    renderComparison();
+}
+
+function removeCompareSpecies(name) {
+    compareList = compareList.filter(n => n !== name);
+    renderComparison();
+}
+
+function clearCompare() {
+    compareList = [];
+    renderComparison();
+}
+
+function renderComparison() {
+    const tagsEl = document.getElementById('compare-tags');
+    const resultEl = document.getElementById('compare-result');
+    
+    // Tags
+    tagsEl.innerHTML = compareList.map(name => 
+        `<span class="compare-tag"><i>${name}</i> <button onclick="removeCompareSpecies('${escapeAttr(name)}')">&times;</button></span>`
+    ).join('') + (compareList.length > 0 ? `<button class="compare-clear" onclick="clearCompare()">Clear all</button>` : '');
+    
+    if (compareList.length < 2) {
+        resultEl.innerHTML = '<p class="compare-hint">Select at least 2 species to compare distinguishing traits.</p>';
+        return;
+    }
+
+    // Build comparison
+    const species = compareList.map(name => speciesData.find(s => s.scientificName === name)).filter(Boolean);
+    
+    // Parse diagnostic traits from descriptions
+    const traits = parseTraits(species);
+    
+    resultEl.innerHTML = `
+        <h3>Diagnostic Comparison</h3>
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Trait</th>
+                    ${species.map(sp => `<th><i>${sp.scientificName}</i>${sp.commonName ? '<br><small>' + sp.commonName + '</small>' : ''}</th>`).join('')}
+                </tr>
+            </thead>
+            <tbody>
+                ${traits.map(t => `<tr class="${t.differs ? 'trait-differs' : ''}">
+                    <td class="trait-label">${t.label}</td>
+                    ${t.values.map(v => `<td>${v}</td>`).join('')}
+                </tr>`).join('')}
+            </tbody>
+        </table>
+        <p class="compare-note"><strong>Highlighted rows</strong> show traits that differ between the selected species.</p>
+    `;
+}
+
+function parseTraits(speciesArr) {
+    const traits = [];
+    
+    // Size (SVL or total length)
+    addTrait(traits, 'Body size', speciesArr, sp => {
+        const d = sp.description || '';
+        const svl = d.match(/(\d+[-–]\d+\s*mm\s*SVL)/i) || d.match(/(SVL\s*(?:up to\s*)?\d+[-–]?\d*\s*mm)/i);
+        const tl = d.match(/(up to\s*\d+\.?\d*\s*(?:cm|m|mm)(?:\s*(?:TL|total length))?)/i) || d.match(/(total length\s*(?:up to\s*)?\d+[-–]?\d*\s*(?:cm|m))/i);
+        const cl = d.match(/(carapace length\s*\d+[-–]\d+\s*mm)/i);
+        if (svl) return svl[1];
+        if (cl) return cl[1];
+        if (tl) return tl[1];
+        return '—';
+    });
+    
+    // Coloration
+    addTrait(traits, 'Coloration', speciesArr, sp => {
+        const d = sp.description || '';
+        // Find color-related phrases
+        const colors = [];
+        const patterns = [
+            /(?:coloration|coloured|colored)[\s:]+([^.]{5,50})/i,
+            /(?:dorsal|dorsum)\s+(?:coloration\s+)?([^.]{5,50})/i,
+            /((?:olive|brown|grey|gray|sandy|green|dark|light|pale|cream|yellow|beige|uniform)[\w\s-]*(?:coloration|coloured|colored|with\s+\w+|dorsum|spots|blotches|stripes|bands)?)/i
+        ];
+        for (const p of patterns) {
+            const m = d.match(p);
+            if (m) { colors.push(m[1].trim().replace(/\.$/, '')); break; }
+        }
+        if (colors.length === 0) {
+            // broader search
+            const m2 = d.match(/((?:bright |dark |light |pale )?(?:olive|brown|grey|gray|sandy|green|cream|yellow|beige|black|white)[\w\s-]{0,30})/i);
+            if (m2) colors.push(m2[1].trim());
+        }
+        return colors.length ? colors.join('; ') : '—';
+    });
+
+    // Pattern
+    addTrait(traits, 'Pattern', speciesArr, sp => {
+        const d = sp.description || '';
+        const pats = [];
+        if (/stripe/i.test(d)) pats.push('striped');
+        if (/blotch/i.test(d)) pats.push('blotched');
+        if (/spot/i.test(d)) pats.push('spotted');
+        if (/band/i.test(d)) pats.push('banded');
+        if (/reticulate/i.test(d)) pats.push('reticulated');
+        if (/zigzag/i.test(d)) pats.push('zigzag');
+        if (/cross-bar|crossbar/i.test(d)) pats.push('cross-barred');
+        if (/uniform/i.test(d)) pats.push('uniform');
+        if (/checker/i.test(d)) pats.push('checkerboard');
+        if (/ocelli/i.test(d)) pats.push('ocellated');
+        return pats.length ? pats.join(', ') : '—';
+    });
+
+    // Head shape
+    addTrait(traits, 'Head shape', speciesArr, sp => {
+        const d = sp.description || '';
+        const m = d.match(/((?:head|snout)[^.]{0,60})/i);
+        if (m) {
+            let h = m[1].trim();
+            if (h.length > 60) h = h.substring(0, 60) + '…';
+            return h;
+        }
+        return '—';
+    });
+
+    // Habitat
+    addTrait(traits, 'Habitat', speciesArr, sp => {
+        return sp.habitat ? sp.habitat.split('.')[0] : '—';
+    });
+
+    // Activity
+    addTrait(traits, 'Activity', speciesArr, sp => {
+        const d = (sp.description || '') + ' ' + (sp.habitat || '');
+        if (/nocturnal/i.test(d) && /diurnal/i.test(d)) return 'Both/crepuscular';
+        if (/strictly nocturnal/i.test(d)) return 'Strictly nocturnal';
+        if (/nocturnal/i.test(d)) return 'Nocturnal';
+        if (/crepuscular/i.test(d)) return 'Crepuscular';
+        if (/diurnal/i.test(d)) return 'Diurnal';
+        return '—';
+    });
+
+    // Venom
+    addTrait(traits, 'Venom', speciesArr, sp => {
+        const d = sp.description || '';
+        if (/HIGHLY VENOMOUS|very toxic/i.test(d)) return '⚠️ Highly venomous';
+        if (/VENOMOUS|venomous/i.test(d)) return '⚠️ Venomous';
+        if (/rear-fanged|opisthoglyphous/i.test(d)) return 'Mildly venomous (rear-fanged)';
+        if (/non-venomous|nonvenomous/i.test(d)) return 'Non-venomous';
+        return '—';
+    });
+
+    // Defensive behavior
+    addTrait(traits, 'Defense/Display', speciesArr, sp => {
+        const d = sp.description || '';
+        const behaviors = [];
+        if (/mouth.*display|display.*mouth|fleshy flap/i.test(d)) behaviors.push('Mouth display');
+        if (/hood/i.test(d)) behaviors.push('Hood display');
+        if (/bury|burying/i.test(d)) behaviors.push('Sand burial');
+        if (/inflate/i.test(d)) behaviors.push('Body inflation');
+        if (/thanatosis|death.feign/i.test(d)) behaviors.push('Death feigning');
+        if (/stridulat|sizzl/i.test(d)) behaviors.push('Stridulation (warning sound)');
+        if (/musk/i.test(d)) behaviors.push('Musk release');
+        if (/spray.*venom|venom.*spray/i.test(d)) behaviors.push('Venom spraying');
+        if (/tail.*break|autotom/i.test(d)) behaviors.push('Tail autotomy');
+        return behaviors.length ? behaviors.join(', ') : '—';
+    });
+
+    // Diet
+    addTrait(traits, 'Diet', speciesArr, sp => {
+        const d = sp.description || '';
+        const m = d.match(/(?:feed(?:s|ing)?\s+on|prey\s+on)\s+([^.]{5,60})/i);
+        return m ? m[1].trim() : '—';
+    });
+
+    // IUCN Status
+    addTrait(traits, 'IUCN Status', speciesArr, sp => {
+        const txt = {'LC':'Least Concern','NT':'Near Threatened','VU':'Vulnerable','EN':'Endangered','CR':'Critically Endangered','DD':'Data Deficient'};
+        return txt[sp.iucnStatus] || sp.iucnStatus;
+    });
+
+    // Taxonomy
+    addTrait(traits, 'Family', speciesArr, sp => sp.family);
+
+    return traits;
+}
+
+function addTrait(traits, label, speciesArr, extractor) {
+    const values = speciesArr.map(extractor);
+    const unique = new Set(values);
+    traits.push({
+        label: label,
+        values: values,
+        differs: unique.size > 1
     });
 }
