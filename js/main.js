@@ -47,10 +47,12 @@ function updateStatistics() {
 function buildPhylogeneticTree() {
     const tree = document.getElementById('phylo-tree');
     
-    // Organize data by taxonomic hierarchy
+    // Organize data by taxonomic hierarchy including genus
     const taxonomy = {};
     
     speciesData.forEach(species => {
+        const genus = species.scientificName.split(' ')[0];
+        
         if (!taxonomy[species.class]) {
             taxonomy[species.class] = {};
         }
@@ -58,9 +60,12 @@ function buildPhylogeneticTree() {
             taxonomy[species.class][species.order] = {};
         }
         if (!taxonomy[species.class][species.order][species.family]) {
-            taxonomy[species.class][species.order][species.family] = [];
+            taxonomy[species.class][species.order][species.family] = {};
         }
-        taxonomy[species.class][species.order][species.family].push(species);
+        if (!taxonomy[species.class][species.order][species.family][genus]) {
+            taxonomy[species.class][species.order][species.family][genus] = [];
+        }
+        taxonomy[species.class][species.order][species.family][genus].push(species);
     });
     
     // Build tree HTML
@@ -103,29 +108,51 @@ function buildPhylogeneticTree() {
                 const familyContent = document.createElement('div');
                 familyContent.className = 'tree-family-content hidden';
                 
-                const species = taxonomy[className][orderName][familyName];
-                species.sort((a, b) => a.scientificName.localeCompare(b.scientificName));
-                
-                species.forEach(sp => {
-                    const speciesDiv = document.createElement('div');
-                    speciesDiv.className = 'tree-species-item';
-                    speciesDiv.setAttribute('data-species', sp.scientificName);
+                // Iterate through genera
+                for (const genusName in taxonomy[className][orderName][familyName]) {
+                    const genusDiv = document.createElement('div');
+                    genusDiv.className = 'tree-genus';
                     
-                    let badge = '';
-                    if (['EN', 'VU', 'NT'].includes(sp.iucnStatus)) {
-                        badge = `<span class="species-badge badge-${sp.iucnStatus}">${sp.iucnStatus}</span>`;
-                    }
+                    const genusHeader = document.createElement('div');
+                    genusHeader.className = 'tree-genus-name';
+                    genusHeader.innerHTML = `<i>${genusName}</i> <span class="tree-toggle">▶</span>`;
+                    genusHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
+                    genusDiv.appendChild(genusHeader);
                     
-                    speciesDiv.innerHTML = `
-                        <span class="tree-species-name">${sp.scientificName.split(' ').slice(0, 2).join(' ')}</span>
-                        ${badge}
-                    `;
-                    speciesDiv.onclick = function(e) { 
-                        e.stopPropagation(); 
-                        selectSpecies(sp); 
-                    };
-                    familyContent.appendChild(speciesDiv);
-                });
+                    const genusContent = document.createElement('div');
+                    genusContent.className = 'tree-genus-content hidden';
+                    
+                    const species = taxonomy[className][orderName][familyName][genusName];
+                    species.sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+                    
+                    species.forEach(sp => {
+                        const speciesDiv = document.createElement('div');
+                        speciesDiv.className = 'tree-species-item';
+                        speciesDiv.setAttribute('data-species', sp.scientificName);
+                        
+                        let badge = '';
+                        if (['EN', 'VU', 'NT'].includes(sp.iucnStatus)) {
+                            badge = `<span class="species-badge badge-${sp.iucnStatus}">${sp.iucnStatus}</span>`;
+                        }
+                        
+                        // Extract species epithet (and subspecies if present)
+                        const nameParts = sp.scientificName.split(' ');
+                        const speciesEpithet = nameParts.slice(1).join(' ');
+                        
+                        speciesDiv.innerHTML = `
+                            <span class="tree-species-name"><i>${speciesEpithet}</i></span>
+                            ${badge}
+                        `;
+                        speciesDiv.onclick = function(e) { 
+                            e.stopPropagation(); 
+                            selectSpecies(sp); 
+                        };
+                        genusContent.appendChild(speciesDiv);
+                    });
+                    
+                    genusDiv.appendChild(genusContent);
+                    familyContent.appendChild(genusDiv);
+                }
                 
                 familyDiv.appendChild(familyContent);
                 orderContent.appendChild(familyDiv);
@@ -143,7 +170,7 @@ function buildPhylogeneticTree() {
 function toggleTreeNode(element) {
     const toggle = element.querySelector('.tree-toggle');
     const parent = element.parentElement;
-    const content = parent.querySelector('.tree-class-content, .tree-order-content, .tree-family-content');
+    const content = parent.querySelector('.tree-class-content, .tree-order-content, .tree-family-content, .tree-genus-content');
     
     if (content) {
         content.classList.toggle('hidden');
@@ -347,7 +374,7 @@ function setupEventListeners() {
         
         // If search is empty, collapse all
         if (searchTerm === '') {
-            document.querySelectorAll('.tree-class-content, .tree-order-content, .tree-family-content').forEach(content => {
+            document.querySelectorAll('.tree-class-content, .tree-order-content, .tree-family-content, .tree-genus-content').forEach(content => {
                 content.classList.add('hidden');
             });
             document.querySelectorAll('.tree-toggle').forEach(toggle => {

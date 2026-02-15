@@ -550,3 +550,36 @@ a:hover {
 .content-area::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+/* Genus level styling */
+.tree-genus {
+    padding-left: 1rem;
+}
+
+.tree-genus-name {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-genus-name:hover {
+    background-color: var(--tree-hover);
+}
+
+.tree-genus-name i {
+    font-weight: 500;
+}
+
+.tree-genus-content {
+    padding-left: 0;
+}
+
+/* Override: Family names should NOT be italic */
+.tree-family-name {
+    font-style: normal;
+}
