@@ -16,6 +16,7 @@
                 <span><span id="total-amphibians">0</span> amphibians</span>
                 <span><span id="total-reptiles">0</span> reptiles</span>
                 <span><span id="threatened-species">0</span> threatened</span>
+                <button id="edit-toggle" class="edit-toggle-btn">✏️ Edit</button>
             </div>
         </div>
     </header>
@@ -88,6 +89,19 @@
                 <p class="update-info">Last updated: <span id="update-date"></span></p>
             </div>
         </main>
+    </div>
+
+    <!-- Password Overlay -->
+    <div id="password-overlay" class="password-overlay">
+        <div class="password-dialog">
+            <h3>Enter Edit Password</h3>
+            <input type="password" id="password-input" placeholder="Password..." />
+            <p id="password-error" class="pwd-error" style="display:none;">Incorrect password</p>
+            <div class="pwd-buttons">
+                <button id="pwd-ok">OK</button>
+                <button id="pwd-cancel">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

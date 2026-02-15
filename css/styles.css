@@ -1,9 +1,5 @@
 /* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --primary-color: #2c5f2d;
@@ -22,7 +18,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--text-dark);
     background-color: #fff;
 }
@@ -31,119 +27,118 @@ body {
 header {
     background-color: var(--primary-color);
     color: white;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     box-shadow: var(--shadow-md);
 }
 
 .header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-header h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
+header h1 { font-size: 1.35rem; font-weight: 600; }
 
 .header-stats {
     display: flex;
-    gap: 2rem;
-    font-size: 0.9rem;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    align-items: center;
 }
 
-.header-stats span {
-    opacity: 0.95;
+.header-stats span { opacity: 0.95; }
+.header-stats span span { font-weight: 700; font-size: 1rem; }
+
+/* Edit mode toggle in header */
+.edit-toggle-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+.edit-toggle-btn:hover { background: rgba(255,255,255,0.3); }
+.edit-toggle-btn.active {
+    background: #e74c3c;
+    border-color: #c0392b;
 }
 
-.header-stats span span {
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-/* Main Container - Split Layout */
+/* Main Container */
 .main-container {
     display: flex;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 52px);
 }
 
-/* Phylogenetic Tree Navigation */
+/* ═══════════════════════════════════════════
+   COMPACT Phylogenetic Tree Navigation
+   ═══════════════════════════════════════════ */
 .tree-navigation {
-    width: 320px;
+    width: 280px;
+    min-width: 280px;
     background-color: var(--tree-bg);
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    font-size: 0.82rem;
 }
 
 .nav-header {
-    padding: 1rem;
+    padding: 0.5rem 0.6rem;
     background-color: white;
     border-bottom: 1px solid var(--border-color);
 }
 
 #tree-search {
     width: 100%;
-    padding: 0.5rem 0.75rem;
+    padding: 0.35rem 0.6rem;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 0.9rem;
+    border-radius: 3px;
+    font-size: 0.82rem;
 }
-
-#tree-search:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
+#tree-search:focus { outline: none; border-color: var(--primary-color); }
 
 .tree-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
 }
 
-/* Tree Structure */
-.tree-class {
-    margin-bottom: 0.5rem;
-}
+/* Tree levels — compact vertical spacing */
+.tree-class { margin-bottom: 0; }
 
 .tree-class-name {
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.6rem;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     color: var(--text-dark);
-    background-color: #e8e8e8;
+    background-color: #e0e0e0;
     cursor: pointer;
     user-select: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-.tree-class-name:hover {
-    background-color: #ddd;
-}
+.tree-class-name:hover { background-color: #d5d5d5; }
 
 .tree-toggle {
-    font-size: 0.8rem;
-    transition: transform 0.2s;
+    font-size: 0.65rem;
+    width: 12px;
+    text-align: center;
+    flex-shrink: 0;
 }
 
-.tree-toggle.expanded {
-    transform: rotate(90deg);
-}
-
-.tree-order {
-    padding-left: 1rem;
-}
-
+.tree-order { padding-left: 0.5rem; }
 .tree-order-name {
-    padding: 0.4rem 1rem;
+    padding: 0.2rem 0.5rem;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-medium);
     cursor: pointer;
     user-select: none;
@@ -151,38 +146,41 @@ header h1 {
     justify-content: space-between;
     align-items: center;
 }
+.tree-order-name:hover { background-color: var(--tree-hover); }
 
-.tree-order-name:hover {
-    background-color: var(--tree-hover);
-}
-
-.tree-family {
-    padding-left: 1rem;
-}
-
+.tree-family { padding-left: 0.5rem; }
 .tree-family-name {
-    padding: 0.35rem 1rem;
-    font-size: 0.85rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.78rem;
     color: var(--text-medium);
-    font-style: italic;
+    font-style: normal;
     cursor: pointer;
     user-select: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+.tree-family-name:hover { background-color: var(--tree-hover); }
 
-.tree-family-name:hover {
-    background-color: var(--tree-hover);
+.tree-genus { padding-left: 0.4rem; }
+.tree-genus-name {
+    padding: 0.12rem 0.4rem;
+    font-size: 0.78rem;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.tree-genus-name:hover { background-color: var(--tree-hover); }
+.tree-genus-name i { font-weight: 500; color: var(--text-medium); }
+.tree-genus-content { padding-left: 0; }
 
-.tree-species {
-    padding-left: 1rem;
-}
-
+/* Species items — indented clearly from genus */
 .tree-species-item {
-    padding: 0.35rem 1rem;
-    font-size: 0.85rem;
+    padding: 0.15rem 0.3rem 0.15rem 1.4rem;
+    font-size: 0.78rem;
     color: var(--text-dark);
     cursor: pointer;
     user-select: none;
@@ -190,60 +188,53 @@ header h1 {
     justify-content: space-between;
     align-items: center;
     border-left: 2px solid transparent;
+    line-height: 1.35;
 }
-
 .tree-species-item:hover {
     background-color: var(--tree-hover);
     border-left-color: var(--secondary-color);
 }
-
 .tree-species-item.active {
     background-color: #d4e7d9;
     border-left-color: var(--primary-color);
     font-weight: 500;
 }
-
-.tree-species-name {
-    font-style: italic;
-}
+.tree-species-name { font-style: italic; }
 
 .species-badge {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 3px;
-    font-weight: 600;
-    margin-left: 0.5rem;
+    font-size: 0.6rem;
+    padding: 0.05rem 0.3rem;
+    border-radius: 2px;
+    font-weight: 700;
+    margin-left: 0.3rem;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
 }
-
 .badge-EN { background-color: #f8d7da; color: #721c24; }
 .badge-VU { background-color: #fff3cd; color: #856404; }
 .badge-NT { background-color: #e7f1ff; color: #004085; }
 .badge-LC { background-color: #d4edda; color: #155724; }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 .nav-footer {
-    padding: 1rem;
+    padding: 0.5rem 0.6rem;
     background-color: white;
     border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: space-around;
+    font-size: 0.8rem;
 }
-
 .nav-footer a {
     color: var(--primary-color);
     text-decoration: none;
-    font-size: 0.9rem;
     font-weight: 500;
 }
+.nav-footer a:hover { text-decoration: underline; }
 
-.nav-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Content Area */
+/* ═══════════════════════════════════════════
+   Content Area
+   ═══════════════════════════════════════════ */
 .content-area {
     flex: 1;
     overflow-y: auto;
@@ -252,113 +243,82 @@ header h1 {
 
 .content-section {
     display: none;
-    padding: 2rem 3rem;
+    padding: 1.5rem 2.5rem;
     max-width: 900px;
 }
+.content-section.active { display: block; }
 
-.content-section.active {
-    display: block;
-}
-
-/* Welcome Message */
-.welcome-message {
-    text-align: center;
-    padding: 3rem 2rem;
-}
-
+/* Welcome */
+.welcome-message { text-align: center; padding: 2rem 1.5rem; }
 .welcome-message h2 {
     color: var(--primary-color);
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-.welcome-message p {
-    color: var(--text-medium);
-    font-size: 1.05rem;
+    font-size: 1.6rem;
     margin-bottom: 0.75rem;
 }
-
+.welcome-message p { color: var(--text-medium); font-size: 1rem; margin-bottom: 0.5rem; }
 .stats-summary {
-    margin-top: 2rem;
-    padding: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem;
     background-color: var(--bg-light);
     border-radius: 6px;
     border: 1px solid var(--border-color);
 }
 
 /* Species Detail */
-.species-detail {
-    animation: fadeIn 0.3s;
-}
-
+.species-detail { animation: fadeIn 0.3s; }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .species-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid var(--border-color);
 }
-
 .species-header h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-style: italic;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
-
 .species-common-name {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-medium);
-    margin-bottom: 1rem;
-}
-
-.species-taxonomy {
-    font-size: 0.95rem;
-    color: var(--text-light);
-    line-height: 1.8;
-}
-
-.species-section {
-    margin-bottom: 2rem;
-}
-
-.species-section h3 {
-    font-size: 1.2rem;
-    color: var(--primary-color);
     margin-bottom: 0.75rem;
+}
+.species-taxonomy {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.species-section { margin-bottom: 1.5rem; }
+.species-section h3 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 0.5rem 1.5rem;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+    grid-template-columns: 130px 1fr;
+    gap: 0.4rem 1.2rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
 }
-
-.info-label {
-    font-weight: 600;
-    color: var(--text-dark);
-}
-
-.info-value {
-    color: var(--text-medium);
-}
+.info-label { font-weight: 600; color: var(--text-dark); }
+.info-value { color: var(--text-medium); }
 
 .status-badge {
     display: inline-block;
-    padding: 0.3rem 0.8rem;
+    padding: 0.25rem 0.7rem;
     border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
     margin-right: 0.5rem;
 }
-
 .status-LC { background-color: #d4edda; color: #155724; }
 .status-NT { background-color: #e7f1ff; color: #004085; }
 .status-VU { background-color: #fff3cd; color: #856404; }
@@ -368,284 +328,275 @@ header h1 {
 
 #distribution-map {
     width: 100%;
-    height: 350px;
+    height: 300px;
     border-radius: 4px;
     border: 1px solid var(--border-color);
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
-.ncbi-links {
+/* Subspecies */
+.subspecies-list {
+    list-style: none;
+    padding: 0;
+}
+.subspecies-list li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+.subspecies-list li:last-child { border-bottom: none; }
+.subspecies-name { font-style: italic; font-weight: 500; }
+.subspecies-range { color: var(--text-light); margin-left: 0.5rem; }
+
+/* Description box */
+.description-text {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text-medium);
+    background: #f8faf8;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--secondary-color);
+}
+
+/* Publications */
+.publication-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+.publication-item:last-child { border-bottom: none; }
+.pub-citation { color: var(--text-dark); }
+.pub-type {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+    margin-left: 0.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+.pub-type-taxonomy { background: #e3f2fd; color: #1565c0; }
+.pub-type-phylogeny { background: #f3e5f5; color: #7b1fa2; }
+.pub-type-ecology { background: #e8f5e9; color: #2e7d32; }
+.pub-type-review { background: #fff3e0; color: #e65100; }
+.pub-type-regional { background: #fce4ec; color: #c62828; }
+.pub-type-conservation { background: #e0f2f1; color: #00695c; }
+.pub-type-checklist { background: #f1f8e9; color: #558b2f; }
+.pub-type-venom { background: #ffebee; color: #b71c1c; }
+.pub-note { color: var(--text-light); font-size: 0.82rem; font-style: italic; margin-top: 0.15rem; }
+
+/* NCBI & External links */
+.ncbi-links, .external-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
+.external-links { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); }
 
 .ncbi-link {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.35rem 0.8rem;
     background-color: var(--primary-color);
     color: white;
     text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    border-radius: 3px;
+    font-size: 0.82rem;
     transition: background-color 0.2s;
 }
-
-.ncbi-link:hover {
-    background-color: var(--secondary-color);
-}
-
-/* Literature Section */
-.literature-item {
-    background-color: var(--bg-light);
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    border-left: 3px solid var(--primary-color);
-}
-
-.literature-item h3 {
-    color: var(--text-dark);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.literature-item .authors {
-    color: var(--text-medium);
-    margin-bottom: 0.4rem;
-    font-size: 0.95rem;
-}
-
-.literature-item .citation {
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-.literature-item a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.literature-item a:hover {
-    text-decoration: underline;
-}
-
-/* Research Section */
-.research-item {
-    background-color: white;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-}
-
-.research-item h3 {
-    color: var(--primary-color);
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-}
-
-.research-item p {
-    color: var(--text-medium);
-    margin-bottom: 1rem;
-    line-height: 1.7;
-}
-
-.species-list {
-    background-color: var(--bg-light);
-    padding: 1rem;
-    border-radius: 4px;
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
-}
-
-.species-list strong {
-    color: var(--text-dark);
-}
-
-/* Citation Box */
-.citation-box {
-    background-color: var(--bg-light);
-    padding: 1rem;
-    border-left: 3px solid var(--primary-color);
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    margin: 1rem 0;
-}
-
-.update-info {
-    margin-top: 2rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-/* Links */
-a {
-    color: var(--primary-color);
-}
-
-a:hover {
-    color: var(--secondary-color);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-    
-    .tree-navigation {
-        width: 100%;
-        height: 40vh;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .content-area {
-        height: 60vh;
-    }
-    
-    .content-section {
-        padding: 1.5rem 1rem;
-    }
-    
-    .header-content {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-    }
-    
-    .header-stats {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Scrollbar Styling */
-.tree-content::-webkit-scrollbar,
-.content-area::-webkit-scrollbar {
-    width: 8px;
-}
-
-.tree-content::-webkit-scrollbar-track,
-.content-area::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.tree-content::-webkit-scrollbar-thumb,
-.content-area::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.tree-content::-webkit-scrollbar-thumb:hover,
-.content-area::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* Genus level styling */
-.tree-genus {
-    padding-left: 1rem;
-}
-
-.tree-genus-name {
-    padding: 0.35rem 1rem;
-    font-size: 0.85rem;
-    color: var(--text-medium);
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tree-genus-name:hover {
-    background-color: var(--tree-hover);
-}
-
-.tree-genus-name i {
-    font-weight: 500;
-}
-
-.tree-genus-content {
-    padding-left: 0;
-}
-
-/* Override: Family names should NOT be italic */
-.tree-family-name {
-    font-style: normal;
-}
-
-/* External links styling */
-.external-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
+.ncbi-link:hover { background-color: var(--secondary-color); }
 
 .external-link {
     display: inline-block;
-    padding: 0.4rem 0.9rem;
+    padding: 0.3rem 0.7rem;
     background-color: #f0f0f0;
     color: var(--text-dark);
     text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.85rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
     border: 1px solid var(--border-color);
     transition: all 0.2s;
 }
-
 .external-link:hover {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
 }
 
-/* Override: Family names should NOT be italic */
-.tree-family-name {
-    font-style: normal;
+/* Literature */
+.literature-item {
+    background-color: var(--bg-light);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
 }
+.literature-item h3 { color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0.35rem; font-weight: 600; }
+.literature-item .authors { color: var(--text-medium); margin-bottom: 0.3rem; font-size: 0.9rem; }
+.literature-item .citation { color: var(--text-light); font-size: 0.85rem; }
+.literature-item a { color: var(--primary-color); text-decoration: none; font-size: 0.85rem; }
+.literature-item a:hover { text-decoration: underline; }
 
-/* Genus level styling */
-.tree-genus {
-    padding-left: 1rem;
+/* Research */
+.research-item {
+    background-color: white;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
 }
-
-.tree-genus-name {
-    padding: 0.35rem 1rem;
+.research-item h3 { color: var(--primary-color); font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 600; }
+.research-item p { color: var(--text-medium); margin-bottom: 0.75rem; line-height: 1.6; }
+.species-list {
+    background-color: var(--bg-light);
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
     font-size: 0.85rem;
-    color: var(--text-medium);
+}
+.species-list strong { color: var(--text-dark); }
+
+/* Citation & About */
+.citation-box {
+    background-color: var(--bg-light);
+    padding: 0.8rem;
+    border-left: 3px solid var(--primary-color);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    margin: 0.75rem 0;
+}
+.update-info { margin-top: 1.5rem; color: var(--text-light); font-size: 0.85rem; }
+
+a { color: var(--primary-color); }
+a:hover { color: var(--secondary-color); }
+
+/* ═══════════════════════════════════════════
+   Edit Mode
+   ═══════════════════════════════════════════ */
+.edit-field {
+    display: none;
+}
+body.edit-mode .edit-field { display: block; }
+body.edit-mode .edit-field-inline { display: inline-block; }
+
+.edit-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-size: 0.72rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
     cursor: pointer;
-    user-select: none;
-    display: flex;
-    justify-content: space-between;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+    display: none;
+}
+body.edit-mode .edit-btn { display: inline-block; }
+.edit-btn:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+.editable-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    resize: vertical;
+    margin-top: 0.3rem;
+}
+
+.save-edit-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+}
+.save-edit-btn:hover { background: var(--secondary-color); }
+
+.cancel-edit-btn {
+    background: #ccc;
+    color: var(--text-dark);
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    margin-left: 0.3rem;
+}
+
+/* Password dialog */
+.password-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
     align-items: center;
 }
+.password-overlay.active { display: flex; }
+.password-dialog {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    min-width: 300px;
+}
+.password-dialog h3 { margin-bottom: 0.75rem; color: var(--primary-color); }
+.password-dialog input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+.password-dialog .btn-row { display: flex; gap: 0.5rem; justify-content: center; }
+.password-dialog button {
+    padding: 0.4rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.password-dialog .btn-ok { background: var(--primary-color); color: white; }
+.password-dialog .btn-cancel { background: #eee; color: var(--text-dark); }
+.password-error { color: #e74c3c; font-size: 0.82rem; margin-bottom: 0.5rem; display: none; }
 
-.tree-genus-name:hover {
-    background-color: var(--tree-hover);
+/* ═══════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .main-container { flex-direction: column; }
+    .tree-navigation {
+        width: 100%;
+        min-width: 100%;
+        height: 35vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .content-area { height: 65vh; }
+    .content-section { padding: 1rem 0.75rem; }
+    .header-content { flex-direction: column; gap: 0.3rem; text-align: center; }
+    .header-stats { gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+    .info-grid { grid-template-columns: 1fr; }
 }
 
-.tree-genus-name i {
-    font-weight: 500;
-}
-
-.tree-genus-content {
-    padding-left: 0;
-}
-
-/* Tree toggles - update arrow direction */
-.tree-toggle {
-    transition: transform 0.2s;
-}
+/* Scrollbar */
+.tree-content::-webkit-scrollbar,
+.content-area::-webkit-scrollbar { width: 6px; }
+.tree-content::-webkit-scrollbar-track,
+.content-area::-webkit-scrollbar-track { background: #f1f1f1; }
+.tree-content::-webkit-scrollbar-thumb,
+.content-area::-webkit-scrollbar-thumb { background: #999; border-radius: 3px; }
+.tree-content::-webkit-scrollbar-thumb:hover,
+.content-area::-webkit-scrollbar-thumb:hover { background: #666; }
