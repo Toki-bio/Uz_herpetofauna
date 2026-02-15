@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herpetofauna of Uzbekistan</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Herpetofauna of Uzbekistan</h1>
+            <div class="header-stats">
+                <span><span id="total-species">0</span> species</span>
+                <span><span id="total-amphibians">0</span> amphibians</span>
+                <span><span id="total-reptiles">0</span> reptiles</span>
+                <span><span id="threatened-species">0</span> threatened</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Phylogenetic Tree Navigation -->
+        <aside class="tree-navigation">
+            <div class="nav-header">
+                <input type="text" id="tree-search" placeholder="Search species..." />
+            </div>
+            
+            <div class="tree-content" id="phylo-tree">
+                <!-- Tree will be dynamically generated -->
+            </div>
+            
+            <div class="nav-footer">
+                <a href="#literature" onclick="showSection('literature')">Literature</a>
+                <a href="#research" onclick="showSection('research')">Research</a>
+                <a href="#about" onclick="showSection('about')">About</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Species Detail View -->
+            <div id="species-view" class="content-section active">
+                <div class="welcome-message">
+                    <h2>Welcome to the Uzbekistan Herpetofauna Database</h2>
+                    <p>Select a species from the phylogenetic tree to view detailed information.</p>
+                    <p class="stats-summary">
+                        This database contains <strong id="welcome-total">0</strong> species of amphibians and reptiles 
+                        documented from Uzbekistan, including <strong id="welcome-endemic">0</strong> endemic species 
+                        and <strong id="welcome-threatened">0</strong> species of conservation concern.
+                    </p>
+                </div>
+                
+                <div id="species-detail" class="species-detail" style="display: none;">
+                    <!-- Species information will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Literature Section -->
+            <div id="literature-section" class="content-section">
+                <h2>Key Literature</h2>
+                <div id="literature-container"></div>
+            </div>
+
+            <!-- Research Plans Section -->
+            <div id="research-section" class="content-section">
+                <h2>Research Plans</h2>
+                <div id="research-container"></div>
+            </div>
+
+            <!-- About Section -->
+            <div id="about-section" class="content-section">
+                <h2>About This Project</h2>
+                <p>This database compiles current knowledge on the herpetofauna of Uzbekistan, including distribution data, taxonomic information, conservation status, genomic resources, and ongoing research efforts.</p>
+                
+                <h3>How to Contribute</h3>
+                <p>If you have additional data, corrections, or suggestions, please open an issue or submit a pull request on the <a href="https://github.com/Toki-bio/Uz_herpetofauna" target="_blank">GitHub repository</a>.</p>
+                
+                <h3>Citation</h3>
+                <div class="citation-box">
+                    [Your Name]. (2026). Herpetofauna of Uzbekistan Database. GitHub repository: https://github.com/Toki-bio/Uz_herpetofauna
+                </div>
+                
+                <h3>Contact</h3>
+                <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+                
+                <p class="update-info">Last updated: <span id="update-date"></span></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
