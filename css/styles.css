@@ -550,3 +550,102 @@ a:hover {
 .content-area::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+/* Genus level styling */
+.tree-genus {
+    padding-left: 1rem;
+}
+
+.tree-genus-name {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-genus-name:hover {
+    background-color: var(--tree-hover);
+}
+
+.tree-genus-name i {
+    font-weight: 500;
+}
+
+.tree-genus-content {
+    padding-left: 0;
+}
+
+/* Override: Family names should NOT be italic */
+.tree-family-name {
+    font-style: normal;
+}
+
+/* External links styling */
+.external-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.external-link {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background-color: #f0f0f0;
+    color: var(--text-dark);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s;
+}
+
+.external-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Override: Family names should NOT be italic */
+.tree-family-name {
+    font-style: normal;
+}
+
+/* Genus level styling */
+.tree-genus {
+    padding-left: 1rem;
+}
+
+.tree-genus-name {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-genus-name:hover {
+    background-color: var(--tree-hover);
+}
+
+.tree-genus-name i {
+    font-weight: 500;
+}
+
+.tree-genus-content {
+    padding-left: 0;
+}
+
+/* Tree toggles - update arrow direction */
+.tree-toggle {
+    transition: transform 0.2s;
+}

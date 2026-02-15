@@ -1,4 +1,5 @@
 // Main JavaScript for Uzbekistan Herpetofauna Database - Phylogenetic Tree Version
+// With external links and fully expanded tree
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
@@ -24,6 +25,9 @@ function initializeApp() {
     
     // Setup event listeners
     setupEventListeners();
+    
+    // Expand all tree nodes by default
+    expandAllTreeNodes();
 }
 
 function updateStatistics() {
@@ -42,6 +46,42 @@ function updateStatistics() {
     document.getElementById('welcome-threatened').textContent = threatened;
     // Count endemics (you can mark these in your data)
     document.getElementById('welcome-endemic').textContent = '5-10';
+}
+
+function generateExternalLinks(species) {
+    const links = [];
+    
+    // iNaturalist link
+    const inatName = species.scientificName.replace(/ /g, '-');
+    links.push({
+        name: 'iNaturalist',
+        url: `https://www.inaturalist.org/taxa/search?q=${encodeURIComponent(species.scientificName)}`
+    });
+    
+    // Reptile Database (for reptiles only)
+    if (species.class === 'Reptilia') {
+        const nameParts = species.scientificName.split(' ');
+        links.push({
+            name: 'Reptile Database',
+            url: `https://reptile-database.reptarium.cz/species?genus=${nameParts[0]}&species=${nameParts[1]}`
+        });
+    }
+    
+    // AmphibiaWeb (for amphibians only)
+    if (species.class === 'Amphibia') {
+        links.push({
+            name: 'AmphibiaWeb',
+            url: `https://amphibiaweb.org/cgi/amphib_query?where-genus=${species.scientificName.split(' ')[0]}&where-species=${species.scientificName.split(' ')[1]}`
+        });
+    }
+    
+    // PubMed
+    links.push({
+        name: 'PubMed',
+        url: `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(species.scientificName)}`
+    });
+    
+    return links;
 }
 
 function buildPhylogeneticTree() {
@@ -75,12 +115,12 @@ function buildPhylogeneticTree() {
         
         const classHeader = document.createElement('div');
         classHeader.className = 'tree-class-name';
-        classHeader.innerHTML = `${className} <span class="tree-toggle">▶</span>`;
+        classHeader.innerHTML = `${className} <span class="tree-toggle expanded">▼</span>`;
         classHeader.onclick = function() { toggleTreeNode(this); };
         classDiv.appendChild(classHeader);
         
         const classContent = document.createElement('div');
-        classContent.className = 'tree-class-content hidden';
+        classContent.className = 'tree-class-content'; // Not hidden by default
         
         for (const orderName in taxonomy[className]) {
             const orderDiv = document.createElement('div');
@@ -88,12 +128,12 @@ function buildPhylogeneticTree() {
             
             const orderHeader = document.createElement('div');
             orderHeader.className = 'tree-order-name';
-            orderHeader.innerHTML = `${orderName} <span class="tree-toggle">▶</span>`;
+            orderHeader.innerHTML = `${orderName} <span class="tree-toggle expanded">▼</span>`;
             orderHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
             orderDiv.appendChild(orderHeader);
             
             const orderContent = document.createElement('div');
-            orderContent.className = 'tree-order-content hidden';
+            orderContent.className = 'tree-order-content'; // Not hidden by default
             
             for (const familyName in taxonomy[className][orderName]) {
                 const familyDiv = document.createElement('div');
@@ -101,12 +141,12 @@ function buildPhylogeneticTree() {
                 
                 const familyHeader = document.createElement('div');
                 familyHeader.className = 'tree-family-name';
-                familyHeader.innerHTML = `${familyName} <span class="tree-toggle">▶</span>`;
+                familyHeader.innerHTML = `${familyName} <span class="tree-toggle expanded">▼</span>`;
                 familyHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
                 familyDiv.appendChild(familyHeader);
                 
                 const familyContent = document.createElement('div');
-                familyContent.className = 'tree-family-content hidden';
+                familyContent.className = 'tree-family-content'; // Not hidden by default
                 
                 // Iterate through genera
                 for (const genusName in taxonomy[className][orderName][familyName]) {
@@ -115,12 +155,12 @@ function buildPhylogeneticTree() {
                     
                     const genusHeader = document.createElement('div');
                     genusHeader.className = 'tree-genus-name';
-                    genusHeader.innerHTML = `<i>${genusName}</i> <span class="tree-toggle">▶</span>`;
+                    genusHeader.innerHTML = `<i>${genusName}</i> <span class="tree-toggle expanded">▼</span>`;
                     genusHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
                     genusDiv.appendChild(genusHeader);
                     
                     const genusContent = document.createElement('div');
-                    genusContent.className = 'tree-genus-content hidden';
+                    genusContent.className = 'tree-genus-content'; // Not hidden by default
                     
                     const species = taxonomy[className][orderName][familyName][genusName];
                     species.sort((a, b) => a.scientificName.localeCompare(b.scientificName));
@@ -167,6 +207,19 @@ function buildPhylogeneticTree() {
     }
 }
 
+function expandAllTreeNodes() {
+    // Remove hidden class from all content divs
+    document.querySelectorAll('.tree-class-content, .tree-order-content, .tree-family-content, .tree-genus-content').forEach(content => {
+        content.classList.remove('hidden');
+    });
+    
+    // Set all toggles to expanded state
+    document.querySelectorAll('.tree-toggle').forEach(toggle => {
+        toggle.classList.add('expanded');
+        toggle.textContent = '▼';
+    });
+}
+
 function toggleTreeNode(element) {
     const toggle = element.querySelector('.tree-toggle');
     const parent = element.parentElement;
@@ -176,6 +229,7 @@ function toggleTreeNode(element) {
         content.classList.toggle('hidden');
         if (toggle) {
             toggle.classList.toggle('expanded');
+            toggle.textContent = toggle.classList.contains('expanded') ? '▼' : '▶';
         }
     }
 }
@@ -211,6 +265,14 @@ function displaySpeciesDetail(species) {
         'DD': 'Data Deficient'
     };
     
+    // Generate external links
+    const externalLinks = generateExternalLinks(species);
+    let externalLinksHtml = '<div class="external-links">';
+    externalLinks.forEach(link => {
+        externalLinksHtml += `<a href="${link.url}" target="_blank" class="external-link">${link.name}</a>`;
+    });
+    externalLinksHtml += '</div>';
+    
     let ncbiLinksHtml = '';
     if (species.ncbiData && species.ncbiData.length > 0) {
         ncbiLinksHtml = '<div class="ncbi-links">';
@@ -229,6 +291,7 @@ function displaySpeciesDetail(species) {
             <div class="species-taxonomy">
                 ${species.class} › ${species.order} › ${species.family}${species.subfamily ? ' › ' + species.subfamily : ''}
             </div>
+            ${externalLinksHtml}
         </div>
         
         <div class="species-section">
@@ -236,6 +299,13 @@ function displaySpeciesDetail(species) {
             <span class="status-badge ${statusClass}">${statusText[species.iucnStatus]}</span>
             ${species.nationalStatus ? `<p style="margin-top: 0.75rem;">National status: ${species.nationalStatus}</p>` : ''}
         </div>
+        
+        ${species.subspecies ? `
+            <div class="species-section">
+                <h3>Subspecies</h3>
+                <p>${species.subspecies}</p>
+            </div>
+        ` : ''}
         
         <div class="species-section">
             <h3>Distribution</h3>
@@ -363,7 +433,10 @@ function setupEventListeners() {
                     if (parent.classList.contains('hidden')) {
                         parent.classList.remove('hidden');
                         const toggle = parent.previousElementSibling?.querySelector('.tree-toggle');
-                        if (toggle) toggle.classList.add('expanded');
+                        if (toggle) {
+                            toggle.classList.add('expanded');
+                            toggle.textContent = '▼';
+                        }
                     }
                     parent = parent.parentElement;
                 }
@@ -372,14 +445,9 @@ function setupEventListeners() {
             }
         });
         
-        // If search is empty, collapse all
+        // If search is empty, expand all again
         if (searchTerm === '') {
-            document.querySelectorAll('.tree-class-content, .tree-order-content, .tree-family-content, .tree-genus-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            document.querySelectorAll('.tree-toggle').forEach(toggle => {
-                toggle.classList.remove('expanded');
-            });
+            expandAllTreeNodes();
             speciesItems.forEach(item => {
                 item.style.display = 'flex';
             });
