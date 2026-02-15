@@ -7,14 +7,17 @@
 
 :root {
     --primary-color: #2c5f2d;
-    --secondary-color: #97bc62;
-    --accent-color: #ff6b35;
-    --text-dark: #333;
-    --text-light: #666;
-    --bg-light: #f8f9fa;
-    --border-color: #ddd;
-    --shadow: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+    --secondary-color: #4a7c59;
+    --accent-color: #8b4513;
+    --text-dark: #2d2d2d;
+    --text-medium: #555;
+    --text-light: #777;
+    --bg-light: #fafafa;
+    --border-color: #d0d0d0;
+    --tree-bg: #f5f5f5;
+    --tree-hover: #e8e8e8;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.12);
 }
 
 body {
@@ -24,260 +27,318 @@ body {
     background-color: #fff;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
 /* Header */
 header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-color: var(--primary-color);
     color: white;
-    padding: 2rem 0;
-    text-align: center;
+    padding: 0.75rem 0;
+    box-shadow: var(--shadow-md);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-.subtitle {
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
-
-.last-updated {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-/* Navigation */
-.main-nav {
-    background-color: var(--primary-color);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-}
-
-.main-nav .container {
+.header-stats {
     display: flex;
-    justify-content: center;
-    gap: 0;
+    gap: 2rem;
+    font-size: 0.9rem;
 }
 
-.main-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 1rem 1.5rem;
-    transition: background-color 0.3s;
-    font-weight: 500;
+.header-stats span {
+    opacity: 0.95;
 }
 
-.main-nav a:hover {
-    background-color: rgba(255,255,255,0.1);
+.header-stats span span {
+    font-weight: 700;
+    font-size: 1.1rem;
 }
 
-/* Main Content */
-main {
-    padding: 2rem 20px;
+/* Main Container - Split Layout */
+.main-container {
+    display: flex;
+    height: calc(100vh - 65px);
 }
 
-.section {
-    margin-bottom: 4rem;
+/* Phylogenetic Tree Navigation */
+.tree-navigation {
+    width: 320px;
+    background-color: var(--tree-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.section h2 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid var(--secondary-color);
+.nav-header {
+    padding: 1rem;
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.stat-card {
-    background: var(--bg-light);
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.stat-label {
-    font-size: 1rem;
-    color: var(--text-light);
-    margin-top: 0.5rem;
-}
-
-/* Filters */
-.filters {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-#search-box,
-.filters select {
-    padding: 0.75rem;
+#tree-search {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
+    font-size: 0.9rem;
 }
 
-#search-box:focus,
-.filters select:focus {
+#tree-search:focus {
     outline: none;
     border-color: var(--primary-color);
 }
 
-/* Species Grid */
-.species-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+.tree-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
 }
 
-.species-card {
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: var(--shadow);
-}
-
-.species-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-color);
-}
-
-.species-card h3 {
-    color: var(--primary-color);
+/* Tree Structure */
+.tree-class {
     margin-bottom: 0.5rem;
-    font-size: 1.3rem;
+}
+
+.tree-class-name {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: #e8e8e8;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-class-name:hover {
+    background-color: #ddd;
+}
+
+.tree-toggle {
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.tree-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.tree-order {
+    padding-left: 1rem;
+}
+
+.tree-order-name {
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-order-name:hover {
+    background-color: var(--tree-hover);
+}
+
+.tree-family {
+    padding-left: 1rem;
+}
+
+.tree-family-name {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    font-style: italic;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tree-family-name:hover {
+    background-color: var(--tree-hover);
+}
+
+.tree-species {
+    padding-left: 1rem;
+}
+
+.tree-species-item {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 2px solid transparent;
+}
+
+.tree-species-item:hover {
+    background-color: var(--tree-hover);
+    border-left-color: var(--secondary-color);
+}
+
+.tree-species-item.active {
+    background-color: #d4e7d9;
+    border-left-color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tree-species-name {
     font-style: italic;
 }
 
-.species-card .common-name {
-    color: var(--text-light);
-    font-size: 0.95rem;
+.species-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.badge-EN { background-color: #f8d7da; color: #721c24; }
+.badge-VU { background-color: #fff3cd; color: #856404; }
+.badge-NT { background-color: #e7f1ff; color: #004085; }
+.badge-LC { background-color: #d4edda; color: #155724; }
+
+.hidden {
+    display: none;
+}
+
+.nav-footer {
+    padding: 1rem;
+    background-color: white;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.content-section {
+    display: none;
+    padding: 2rem 3rem;
+    max-width: 900px;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Welcome Message */
+.welcome-message {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.welcome-message h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.welcome-message p {
+    color: var(--text-medium);
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+}
+
+.stats-summary {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--bg-light);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+/* Species Detail */
+.species-detail {
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.species-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.species-header h2 {
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.species-common-name {
+    font-size: 1.2rem;
+    color: var(--text-medium);
     margin-bottom: 1rem;
 }
 
-.species-card .taxonomy {
-    font-size: 0.9rem;
+.species-taxonomy {
+    font-size: 0.95rem;
     color: var(--text-light);
-    margin-bottom: 0.5rem;
+    line-height: 1.8;
 }
 
-.species-card .status-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-top: 0.5rem;
-}
-
-.status-LC { background-color: #d4edda; color: #155724; }
-.status-NT { background-color: #fff3cd; color: #856404; }
-.status-VU { background-color: #ffe5cc; color: #cc5500; }
-.status-EN { background-color: #f8d7da; color: #721c24; }
-.status-CR { background-color: #f5c6cb; color: #721c24; }
-.status-DD { background-color: #e2e3e5; color: #383d41; }
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6);
-}
-
-.modal-content {
-    background-color: white;
-    margin: 2% auto;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 1;
-}
-
-.close:hover {
-    color: #000;
-}
-
-.modal-header {
-    margin-bottom: 1.5rem;
-}
-
-.modal-header h2 {
-    color: var(--primary-color);
-    font-style: italic;
-    border: none;
-    padding: 0;
-}
-
-.modal-section {
+.species-section {
     margin-bottom: 2rem;
 }
 
-.modal-section h3 {
+.species-section h3 {
+    font-size: 1.2rem;
     color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 0.5rem 1rem;
+    grid-template-columns: 140px 1fr;
+    gap: 0.5rem 1.5rem;
     margin-bottom: 1rem;
+    font-size: 0.95rem;
 }
 
 .info-label {
@@ -286,7 +347,31 @@ main {
 }
 
 .info-value {
-    color: var(--text-light);
+    color: var(--text-medium);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.status-LC { background-color: #d4edda; color: #155724; }
+.status-NT { background-color: #e7f1ff; color: #004085; }
+.status-VU { background-color: #fff3cd; color: #856404; }
+.status-EN { background-color: #f8d7da; color: #721c24; }
+.status-CR { background-color: #f5c6cb; color: #721c24; }
+.status-DD { background-color: #e2e3e5; color: #383d41; }
+
+#distribution-map {
+    width: 100%;
+    height: 350px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    margin-top: 1rem;
 }
 
 .ncbi-links {
@@ -303,125 +388,165 @@ main {
     text-decoration: none;
     border-radius: 4px;
     font-size: 0.9rem;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 }
 
 .ncbi-link:hover {
     background-color: var(--secondary-color);
 }
 
-#distribution-map {
-    width: 100%;
-    height: 400px;
-    border-radius: 8px;
-    margin-top: 1rem;
-}
-
 /* Literature Section */
 .literature-item {
-    background: var(--bg-light);
-    padding: 1.5rem;
+    background-color: var(--bg-light);
+    padding: 1.25rem;
     margin-bottom: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
 }
 
 .literature-item h3 {
-    color: var(--primary-color);
+    color: var(--text-dark);
+    font-size: 1rem;
     margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .literature-item .authors {
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
+    color: var(--text-medium);
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
 }
 
 .literature-item .citation {
     color: var(--text-light);
-    font-style: italic;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+}
+
+.literature-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.literature-item a:hover {
+    text-decoration: underline;
 }
 
 /* Research Section */
 .research-item {
-    background: white;
+    background-color: white;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
 }
 
 .research-item h3 {
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 
-.research-item .species-list {
-    background: var(--bg-light);
+.research-item p {
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.species-list {
+    background-color: var(--bg-light);
     padding: 1rem;
     border-radius: 4px;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.species-list strong {
+    color: var(--text-dark);
 }
 
 /* Citation Box */
 .citation-box {
-    background: var(--bg-light);
+    background-color: var(--bg-light);
     padding: 1rem;
-    border-left: 4px solid var(--primary-color);
-    font-family: monospace;
+    border-left: 3px solid var(--primary-color);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
     margin: 1rem 0;
 }
 
-/* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: 4rem;
+.update-info {
+    margin-top: 2rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
 }
 
-footer a {
-    color: white;
-    text-decoration: underline;
+/* Links */
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--secondary-color);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 1.8rem;
+    .main-container {
+        flex-direction: column;
     }
     
-    .filters {
-        grid-template-columns: 1fr;
+    .tree-navigation {
+        width: 100%;
+        height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
     }
     
-    .species-grid {
-        grid-template-columns: 1fr;
+    .content-area {
+        height: 60vh;
     }
     
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
+    .content-section {
+        padding: 1.5rem 1rem;
     }
     
-    .main-nav .container {
-        flex-wrap: wrap;
-    }
-    
-    .main-nav a {
-        flex: 1 1 50%;
+    .header-content {
+        flex-direction: column;
+        gap: 0.5rem;
         text-align: center;
     }
     
-    .modal-content {
-        width: 95%;
-        padding: 1rem;
-        margin: 5% auto;
+    .header-stats {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .info-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Scrollbar Styling */
+.tree-content::-webkit-scrollbar,
+.content-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tree-content::-webkit-scrollbar-track,
+.content-area::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.tree-content::-webkit-scrollbar-thumb,
+.content-area::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.tree-content::-webkit-scrollbar-thumb:hover,
+.content-area::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

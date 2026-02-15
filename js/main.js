@@ -1,6 +1,5 @@
-// Main JavaScript for Uzbekistan Herpetofauna Database
+// Main JavaScript for Uzbekistan Herpetofauna Database - Phylogenetic Tree Version
 
-// Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
@@ -16,16 +15,11 @@ function initializeApp() {
     // Calculate and display statistics
     updateStatistics();
     
-    // Populate filters
-    populateFilters();
+    // Build phylogenetic tree
+    buildPhylogeneticTree();
     
-    // Display all species initially
-    displaySpecies(speciesData);
-    
-    // Display literature
+    // Display literature and research
     displayLiterature(literatureData);
-    
-    // Display research plans
     displayResearch(researchPlans);
     
     // Setup event listeners
@@ -42,61 +36,143 @@ function updateStatistics() {
     document.getElementById('total-reptiles').textContent = reptiles;
     document.getElementById('total-amphibians').textContent = amphibians;
     document.getElementById('threatened-species').textContent = threatened;
+    
+    // Welcome message stats
+    document.getElementById('welcome-total').textContent = totalSpecies;
+    document.getElementById('welcome-threatened').textContent = threatened;
+    // Count endemics (you can mark these in your data)
+    document.getElementById('welcome-endemic').textContent = '5-10';
 }
 
-function populateFilters() {
-    // Get unique orders
-    const orders = [...new Set(speciesData.map(s => s.order))].sort();
-    const orderFilter = document.getElementById('filter-order');
+function buildPhylogeneticTree() {
+    const tree = document.getElementById('phylo-tree');
     
-    orders.forEach(order => {
-        const option = document.createElement('option');
-        option.value = order;
-        option.textContent = order;
-        orderFilter.appendChild(option);
+    // Organize data by taxonomic hierarchy
+    const taxonomy = {};
+    
+    speciesData.forEach(species => {
+        if (!taxonomy[species.class]) {
+            taxonomy[species.class] = {};
+        }
+        if (!taxonomy[species.class][species.order]) {
+            taxonomy[species.class][species.order] = {};
+        }
+        if (!taxonomy[species.class][species.order][species.family]) {
+            taxonomy[species.class][species.order][species.family] = [];
+        }
+        taxonomy[species.class][species.order][species.family].push(species);
     });
-}
-
-function displaySpecies(species) {
-    const container = document.getElementById('species-container');
-    container.innerHTML = '';
     
-    if (species.length === 0) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666;">No species found matching your filters.</p>';
-        return;
+    // Build tree HTML
+    for (const className in taxonomy) {
+        const classDiv = document.createElement('div');
+        classDiv.className = 'tree-class';
+        
+        const classHeader = document.createElement('div');
+        classHeader.className = 'tree-class-name';
+        classHeader.innerHTML = `${className} <span class="tree-toggle">▶</span>`;
+        classHeader.onclick = function() { toggleTreeNode(this); };
+        classDiv.appendChild(classHeader);
+        
+        const classContent = document.createElement('div');
+        classContent.className = 'tree-class-content hidden';
+        
+        for (const orderName in taxonomy[className]) {
+            const orderDiv = document.createElement('div');
+            orderDiv.className = 'tree-order';
+            
+            const orderHeader = document.createElement('div');
+            orderHeader.className = 'tree-order-name';
+            orderHeader.innerHTML = `${orderName} <span class="tree-toggle">▶</span>`;
+            orderHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
+            orderDiv.appendChild(orderHeader);
+            
+            const orderContent = document.createElement('div');
+            orderContent.className = 'tree-order-content hidden';
+            
+            for (const familyName in taxonomy[className][orderName]) {
+                const familyDiv = document.createElement('div');
+                familyDiv.className = 'tree-family';
+                
+                const familyHeader = document.createElement('div');
+                familyHeader.className = 'tree-family-name';
+                familyHeader.innerHTML = `${familyName} <span class="tree-toggle">▶</span>`;
+                familyHeader.onclick = function(e) { e.stopPropagation(); toggleTreeNode(this); };
+                familyDiv.appendChild(familyHeader);
+                
+                const familyContent = document.createElement('div');
+                familyContent.className = 'tree-family-content hidden';
+                
+                const species = taxonomy[className][orderName][familyName];
+                species.sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+                
+                species.forEach(sp => {
+                    const speciesDiv = document.createElement('div');
+                    speciesDiv.className = 'tree-species-item';
+                    speciesDiv.setAttribute('data-species', sp.scientificName);
+                    
+                    let badge = '';
+                    if (['EN', 'VU', 'NT'].includes(sp.iucnStatus)) {
+                        badge = `<span class="species-badge badge-${sp.iucnStatus}">${sp.iucnStatus}</span>`;
+                    }
+                    
+                    speciesDiv.innerHTML = `
+                        <span class="tree-species-name">${sp.scientificName.split(' ').slice(0, 2).join(' ')}</span>
+                        ${badge}
+                    `;
+                    speciesDiv.onclick = function(e) { 
+                        e.stopPropagation(); 
+                        selectSpecies(sp); 
+                    };
+                    familyContent.appendChild(speciesDiv);
+                });
+                
+                familyDiv.appendChild(familyContent);
+                orderContent.appendChild(familyDiv);
+            }
+            
+            orderDiv.appendChild(orderContent);
+            classContent.appendChild(orderDiv);
+        }
+        
+        classDiv.appendChild(classContent);
+        tree.appendChild(classDiv);
     }
+}
+
+function toggleTreeNode(element) {
+    const toggle = element.querySelector('.tree-toggle');
+    const parent = element.parentElement;
+    const content = parent.querySelector('.tree-class-content, .tree-order-content, .tree-family-content');
     
-    species.forEach(sp => {
-        const card = createSpeciesCard(sp);
-        container.appendChild(card);
+    if (content) {
+        content.classList.toggle('hidden');
+        if (toggle) {
+            toggle.classList.toggle('expanded');
+        }
+    }
+}
+
+function selectSpecies(species) {
+    // Update active state
+    document.querySelectorAll('.tree-species-item').forEach(item => {
+        item.classList.remove('active');
     });
+    document.querySelector(`[data-species="${species.scientificName}"]`).classList.add('active');
+    
+    // Show species view
+    showSection('species');
+    
+    // Display species details
+    displaySpeciesDetail(species);
 }
 
-function createSpeciesCard(species) {
-    const card = document.createElement('div');
-    card.className = 'species-card';
-    card.onclick = () => showSpeciesDetail(species);
+function displaySpeciesDetail(species) {
+    const welcomeMsg = document.querySelector('.welcome-message');
+    const detailDiv = document.getElementById('species-detail');
     
-    const statusClass = `status-${species.iucnStatus}`;
-    
-    card.innerHTML = `
-        <h3>${species.scientificName}</h3>
-        ${species.commonName ? `<div class="common-name">${species.commonName}</div>` : ''}
-        <div class="taxonomy">
-            <strong>${species.order}</strong> › ${species.family}
-        </div>
-        <div class="taxonomy">
-            ${species.distribution}
-        </div>
-        <span class="status-badge ${statusClass}">${species.iucnStatus}</span>
-    `;
-    
-    return card;
-}
-
-function showSpeciesDetail(species) {
-    const modal = document.getElementById('species-modal');
-    const modalBody = document.getElementById('modal-body');
+    welcomeMsg.style.display = 'none';
+    detailDiv.style.display = 'block';
     
     const statusClass = `status-${species.iucnStatus}`;
     const statusText = {
@@ -108,7 +184,6 @@ function showSpeciesDetail(species) {
         'DD': 'Data Deficient'
     };
     
-    // Build NCBI links HTML
     let ncbiLinksHtml = '';
     if (species.ncbiData && species.ncbiData.length > 0) {
         ncbiLinksHtml = '<div class="ncbi-links">';
@@ -120,77 +195,70 @@ function showSpeciesDetail(species) {
         ncbiLinksHtml = '<p style="color: #999;">No genomic data available yet.</p>';
     }
     
-    modalBody.innerHTML = `
-        <div class="modal-header">
+    detailDiv.innerHTML = `
+        <div class="species-header">
             <h2>${species.scientificName}</h2>
-            ${species.commonName ? `<p style="font-size: 1.1rem; color: #666;">${species.commonName}</p>` : ''}
-        </div>
-        
-        <div class="modal-section">
-            <h3>Taxonomy</h3>
-            <div class="info-grid">
-                <div class="info-label">Class:</div>
-                <div class="info-value">${species.class}</div>
-                <div class="info-label">Order:</div>
-                <div class="info-value">${species.order}</div>
-                <div class="info-label">Family:</div>
-                <div class="info-value">${species.family}</div>
-                ${species.subfamily ? `<div class="info-label">Subfamily:</div><div class="info-value">${species.subfamily}</div>` : ''}
+            ${species.commonName ? `<div class="species-common-name">${species.commonName}</div>` : ''}
+            <div class="species-taxonomy">
+                ${species.class} › ${species.order} › ${species.family}${species.subfamily ? ' › ' + species.subfamily : ''}
             </div>
         </div>
         
-        <div class="modal-section">
+        <div class="species-section">
             <h3>Conservation Status</h3>
-            <span class="status-badge ${statusClass}">${species.iucnStatus} - ${statusText[species.iucnStatus]}</span>
-            ${species.nationalStatus ? `<p style="margin-top: 0.5rem;">National status: ${species.nationalStatus}</p>` : ''}
+            <span class="status-badge ${statusClass}">${statusText[species.iucnStatus]}</span>
+            ${species.nationalStatus ? `<p style="margin-top: 0.75rem;">National status: ${species.nationalStatus}</p>` : ''}
         </div>
         
-        <div class="modal-section">
+        <div class="species-section">
             <h3>Distribution</h3>
             <p>${species.distribution}</p>
             ${species.coordinates ? `
                 <div id="distribution-map"></div>
-                <script>
-                    setTimeout(() => {
-                        const map = L.map('distribution-map').setView([${species.coordinates.lat}, ${species.coordinates.lng}], 7);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors'
-                        }).addTo(map);
-                        L.marker([${species.coordinates.lat}, ${species.coordinates.lng}]).addTo(map)
-                            .bindPopup('${species.scientificName}').openPopup();
-                    }, 100);
-                </script>
             ` : ''}
         </div>
         
         ${species.habitat ? `
-            <div class="modal-section">
+            <div class="species-section">
                 <h3>Habitat</h3>
                 <p>${species.habitat}</p>
             </div>
         ` : ''}
         
-        <div class="modal-section">
+        <div class="species-section">
             <h3>Genomic Resources</h3>
             ${ncbiLinksHtml}
         </div>
         
         ${species.notes ? `
-            <div class="modal-section">
+            <div class="species-section">
                 <h3>Notes</h3>
                 <p>${species.notes}</p>
             </div>
         ` : ''}
         
         ${species.researchPlans ? `
-            <div class="modal-section">
+            <div class="species-section">
                 <h3>Research Plans</h3>
                 <p>${species.researchPlans}</p>
             </div>
         ` : ''}
     `;
     
-    modal.style.display = 'block';
+    // Initialize map if coordinates exist
+    if (species.coordinates) {
+        setTimeout(() => {
+            const map = L.map('distribution-map').setView([species.coordinates.lat, species.coordinates.lng], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([species.coordinates.lat, species.coordinates.lng]).addTo(map)
+                .bindPopup(`<i>${species.scientificName}</i>`).openPopup();
+        }, 100);
+    }
+    
+    // Scroll to top
+    document.querySelector('.content-area').scrollTop = 0;
 }
 
 function displayLiterature(literature) {
@@ -222,71 +290,72 @@ function displayResearch(plans) {
             <p>${plan.description}</p>
             ${plan.species ? `
                 <div class="species-list">
-                    <strong>Target species:</strong> ${plan.species.join(', ')}
+                    <strong>Target species:</strong> ${plan.species.map(s => '<i>' + s + '</i>').join(', ')}
                 </div>
             ` : ''}
-            ${plan.timeline ? `<p style="margin-top: 0.5rem;"><strong>Timeline:</strong> ${plan.timeline}</p>` : ''}
+            ${plan.timeline ? `<p style="margin-top: 0.75rem;"><strong>Timeline:</strong> ${plan.timeline}</p>` : ''}
         `;
         container.appendChild(div);
     });
 }
 
-function setupEventListeners() {
-    // Search box
-    document.getElementById('search-box').addEventListener('input', filterSpecies);
-    
-    // Filter dropdowns
-    document.getElementById('filter-class').addEventListener('change', filterSpecies);
-    document.getElementById('filter-order').addEventListener('change', filterSpecies);
-    document.getElementById('filter-status').addEventListener('change', filterSpecies);
-    
-    // Modal close
-    document.querySelector('.close').onclick = function() {
-        document.getElementById('species-modal').style.display = 'none';
-    };
-    
-    window.onclick = function(event) {
-        const modal = document.getElementById('species-modal');
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    };
-    
-    // Smooth scrolling for navigation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+function showSection(sectionName) {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
     });
+    
+    // Show requested section
+    if (sectionName === 'species') {
+        document.getElementById('species-view').classList.add('active');
+    } else if (sectionName === 'literature') {
+        document.getElementById('literature-section').classList.add('active');
+    } else if (sectionName === 'research') {
+        document.getElementById('research-section').classList.add('active');
+    } else if (sectionName === 'about') {
+        document.getElementById('about-section').classList.add('active');
+    }
 }
 
-function filterSpecies() {
-    const searchTerm = document.getElementById('search-box').value.toLowerCase();
-    const classFilter = document.getElementById('filter-class').value;
-    const orderFilter = document.getElementById('filter-order').value;
-    const statusFilter = document.getElementById('filter-status').value;
-    
-    const filtered = speciesData.filter(species => {
-        // Search filter
-        const matchesSearch = !searchTerm || 
-            species.scientificName.toLowerCase().includes(searchTerm) ||
-            (species.commonName && species.commonName.toLowerCase().includes(searchTerm));
+function setupEventListeners() {
+    // Tree search
+    const searchBox = document.getElementById('tree-search');
+    searchBox.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const speciesItems = document.querySelectorAll('.tree-species-item');
         
-        // Class filter
-        const matchesClass = classFilter === 'all' || species.class === classFilter;
+        speciesItems.forEach(item => {
+            const speciesName = item.getAttribute('data-species').toLowerCase();
+            const commonName = item.textContent.toLowerCase();
+            
+            if (speciesName.includes(searchTerm) || commonName.includes(searchTerm)) {
+                item.style.display = 'flex';
+                // Expand parent nodes
+                let parent = item.parentElement;
+                while (parent && !parent.classList.contains('tree-navigation')) {
+                    if (parent.classList.contains('hidden')) {
+                        parent.classList.remove('hidden');
+                        const toggle = parent.previousElementSibling?.querySelector('.tree-toggle');
+                        if (toggle) toggle.classList.add('expanded');
+                    }
+                    parent = parent.parentElement;
+                }
+            } else {
+                item.style.display = 'none';
+            }
+        });
         
-        // Order filter
-        const matchesOrder = orderFilter === 'all' || species.order === orderFilter;
-        
-        // Status filter
-        const matchesStatus = statusFilter === 'all' || species.iucnStatus === statusFilter;
-        
-        return matchesSearch && matchesClass && matchesOrder && matchesStatus;
+        // If search is empty, collapse all
+        if (searchTerm === '') {
+            document.querySelectorAll('.tree-class-content, .tree-order-content, .tree-family-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tree-toggle').forEach(toggle => {
+                toggle.classList.remove('expanded');
+            });
+            speciesItems.forEach(item => {
+                item.style.display = 'flex';
+            });
+        }
     });
-    
-    displaySpecies(filtered);
 }
