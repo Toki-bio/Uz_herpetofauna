@@ -543,6 +543,123 @@ body.edit-mode .edit-btn { display: inline-block; }
     align-items: center;
 }
 .password-overlay.active { display: flex; }
+
+/* Species Photo */
+.species-photo-section { text-align: center; }
+.species-photo {
+    max-width: 100%;
+    max-height: 340px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    margin-bottom: 0.3rem;
+    object-fit: contain;
+}
+.photo-caption {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 0.3rem;
+}
+.photo-upload-area {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.5rem;
+}
+.photo-edit-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.3rem;
+}
+.photo-placeholder { display: none; }
+body.edit-mode .photo-placeholder { display: block; }
+
+/* Literature links */
+.lit-links {
+    margin-top: 0.35rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+.lit-link {
+    font-size: 0.78rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    transition: all 0.15s;
+}
+.lit-link:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.pub-link {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-left: 0.4rem;
+}
+.pub-link:hover { text-decoration: underline; }
+.pub-citation a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.pub-citation a:hover { text-decoration: underline; }
+
+/* Locality map & legend */
+.locality-legend {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    flex-wrap: wrap;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.loc-marker { background: transparent !important; border: none !important; }
+.locality-controls { margin-top: 0.4rem; }
+.locality-detail { font-size: 0.82rem; }
+.locality-detail summary {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: 500;
+    padding: 0.2rem 0;
+}
+.locality-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+}
+.locality-table th {
+    background: var(--background-color);
+    padding: 0.25rem 0.4rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.locality-table td {
+    padding: 0.2rem 0.4rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+.locality-table tr:hover td { background: #fafafa; }
 .password-dialog {
     background: white;
     padding: 1.5rem 2rem;

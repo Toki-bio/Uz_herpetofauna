@@ -1455,3 +1455,278 @@ const researchPlans = [
         timeline: "Ongoing 2026-2030"
     }
 ];
+
+// ═══════════════════════════════════════════
+// Locality Data — multi-point records per species
+// ═══════════════════════════════════════════
+const localityData = {
+    "Hynobius turkestanicus": [
+        { lat: 41.73, lng: 70.03, label: "Chimgan mountains", source: "Tarkhnishvili & Serbinova 1993" },
+        { lat: 41.60, lng: 69.95, label: "Beldersay valley", source: "Bogdanov 1960" },
+        { lat: 41.80, lng: 70.10, label: "Pskem River headwaters", source: "Red Book Uz 2019" },
+        { lat: 41.52, lng: 70.20, label: "Chatkal Range", source: "Kuzmin 1999" }
+    ],
+    "Bufotes viridis": [
+        { lat: 41.31, lng: 69.28, label: "Tashkent city", source: "Martin et al. 2017" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand environs", source: "Martin et al. 2017" },
+        { lat: 39.77, lng: 64.42, label: "Bukhara oasis", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 71.80, label: "Fergana city", source: "Bogdanov 1960" },
+        { lat: 38.80, lng: 65.80, label: "Karshi steppe", source: "Field obs." }
+    ],
+    "Bufotes pewzowi": [
+        { lat: 40.78, lng: 71.79, label: "Fergana Valley, east", source: "Stöck et al. 2006" },
+        { lat: 41.00, lng: 71.67, label: "Namangan", source: "Bogdanov 1960" },
+        { lat: 40.53, lng: 70.94, label: "Kokand", source: "Bogdanov 1960" },
+        { lat: 41.30, lng: 69.30, label: "Tashkent area (syntopy zone)", source: "Stöck et al. 2001" }
+    ],
+    "Bufotes perrini": [
+        { lat: 39.65, lng: 66.95, label: "Samarkand", source: "Stöck et al. 2013" },
+        { lat: 39.77, lng: 64.42, label: "Bukhara", source: "Stöck et al. 2013" },
+        { lat: 38.80, lng: 65.80, label: "Karshi", source: "Field obs." }
+    ],
+    "Bufotes sitibundus": [
+        { lat: 37.83, lng: 67.60, label: "Termez area", source: "Bogdanov 1960" },
+        { lat: 38.30, lng: 67.80, label: "Denau, Surkhandarya", source: "Field obs." },
+        { lat: 38.00, lng: 68.20, label: "Babatag Range foothills", source: "Martin et al. 2017" }
+    ],
+    "Pelophylax ridibundus": [
+        { lat: 41.30, lng: 69.20, label: "Tashkent, Chirchik River", source: "Martin et al. 2017" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand, Zarafshan R.", source: "Bogdanov 1960" },
+        { lat: 40.78, lng: 72.00, label: "Syr Darya, Fergana", source: "Bogdanov 1960" },
+        { lat: 42.46, lng: 59.60, label: "Amu Darya delta, Karakalpakstan", source: "Kuzmin 1999" },
+        { lat: 39.77, lng: 64.42, label: "Bukhara canals", source: "Field obs." }
+    ],
+    "Rana asiatica": [
+        { lat: 41.50, lng: 70.00, label: "Chimgan foothills", source: "Bogdanov 1960" },
+        { lat: 41.75, lng: 70.15, label: "Pskem area", source: "Kuzmin 1999" },
+        { lat: 41.40, lng: 70.30, label: "Chatkal valley", source: "Kuzmin 1999" }
+    ],
+    "Testudo horsfieldii": [
+        { lat: 40.50, lng: 64.50, label: "Kyzylkum, central", source: "Bogdanov 1960" },
+        { lat: 38.80, lng: 65.80, label: "Karshi steppe", source: "Red Book Uz 2019" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand foothills", source: "Martin et al. 2017" },
+        { lat: 41.00, lng: 69.00, label: "Tashkent region", source: "Martin et al. 2017" },
+        { lat: 37.83, lng: 67.60, label: "Surkhandarya lowlands", source: "Bogdanov 1960" },
+        { lat: 40.78, lng: 71.79, label: "Fergana Valley", source: "Bogdanov 1960" }
+    ],
+    "Laudakia lehmanni": [
+        { lat: 41.60, lng: 70.00, label: "Chimgan rocks", source: "Ananjeva et al. 2006" },
+        { lat: 41.73, lng: 70.10, label: "Beldersay cliffs", source: "Martin et al. 2017" },
+        { lat: 41.80, lng: 70.25, label: "Pskem gorge", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 70.30, label: "Chatkal Reserve", source: "Bogdanov 1960" }
+    ],
+    "Paralaudakia bochariensis": [
+        { lat: 39.00, lng: 66.80, label: "Samarkand foothills", source: "Bogdanov 1960" },
+        { lat: 38.50, lng: 67.50, label: "Surkhandarya rocks", source: "Ananjeva et al. 2006" },
+        { lat: 39.10, lng: 67.30, label: "Zarafshan Range", source: "Martin et al. 2017" }
+    ],
+    "Trapelus sanguinolentus": [
+        { lat: 41.00, lng: 64.00, label: "Kyzylkum edge", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 68.00, label: "Jizzakh steppe", source: "Martin et al. 2017" },
+        { lat: 39.00, lng: 66.00, label: "Samarkand lowlands", source: "Martin et al. 2017" },
+        { lat: 42.00, lng: 60.00, label: "Karakalpakstan plain", source: "Bogdanov 1960" }
+    ],
+    "Phrynocephalus helioscopus": [
+        { lat: 42.00, lng: 62.00, label: "Khorezm lowlands", source: "Solovyeva et al. 2018" },
+        { lat: 41.50, lng: 63.50, label: "Kyzylkum NE", source: "Bogdanov 1960" },
+        { lat: 42.50, lng: 59.50, label: "Aral Sea vicinity", source: "Shcherbak 1993" },
+        { lat: 40.50, lng: 65.00, label: "Navoi region", source: "Bogdanov 1960" }
+    ],
+    "Phrynocephalus interscapularis": [
+        { lat: 43.00, lng: 59.00, label: "Ustyurt Plateau edge", source: "Bogdanov 1960" },
+        { lat: 42.50, lng: 59.50, label: "Kungrad district", source: "Shcherbak 1993" },
+        { lat: 42.80, lng: 58.50, label: "NW Karakalpakstan", source: "Bogdanov 1960" }
+    ],
+    "Phrynocephalus mystaceus": [
+        { lat: 40.00, lng: 63.00, label: "Kyzylkum central", source: "Bogdanov 1960" },
+        { lat: 41.00, lng: 62.00, label: "Bukhara sands", source: "Bogdanov 1960" },
+        { lat: 42.50, lng: 59.50, label: "Karakalpakstan dunes", source: "Shcherbak 1993" },
+        { lat: 39.50, lng: 64.00, label: "Bukhara environs", source: "Martin et al. 2017" }
+    ],
+    "Phrynocephalus reticulatus": [
+        { lat: 41.00, lng: 61.00, label: "Kyzylkum west", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm sands", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 63.00, label: "Navoi sands", source: "Solovyeva et al. 2018" },
+        { lat: 41.50, lng: 62.00, label: "Kyzylkum NW", source: "Bogdanov 1960" }
+    ],
+    "Phrynocephalus raddei": [
+        { lat: 38.00, lng: 67.00, label: "Surkhandarya foothills", source: "Bogdanov 1960" },
+        { lat: 38.40, lng: 67.60, label: "Denau area", source: "Ananjeva et al. 2006" },
+        { lat: 37.83, lng: 67.60, label: "Termez environs", source: "Martin et al. 2017" }
+    ],
+    "Phrynocephalus strauchi": [
+        { lat: 40.70, lng: 71.50, label: "Fergana Valley, west", source: "Solovyeva et al. 2018" },
+        { lat: 40.50, lng: 71.80, label: "Fergana city environs", source: "Bogdanov 1960" },
+        { lat: 41.00, lng: 71.67, label: "Namangan sands", source: "Red Book Uz 2019" }
+    ],
+    "Phrynocephalus rossikowi": [
+        { lat: 42.50, lng: 59.50, label: "Aral Sea area", source: "Bogdanov 1960" },
+        { lat: 43.00, lng: 58.50, label: "Ustyurt edge", source: "Shcherbak 1993" },
+        { lat: 42.00, lng: 60.00, label: "Kungrad", source: "Bogdanov 1960" }
+    ],
+    "Teratoscincus scincus": [
+        { lat: 41.50, lng: 63.00, label: "Kyzylkum, Zarafshan sands", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 62.00, label: "Bukhara sands", source: "Martin et al. 2017" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm sands", source: "Bogdanov 1960" },
+        { lat: 39.50, lng: 64.00, label: "SW Kyzylkum", source: "Field obs." }
+    ],
+    "Teratoscincus rustamowi": [
+        { lat: 40.60, lng: 71.80, label: "Fergana Valley, SE", source: "Red Book Uz 2019" },
+        { lat: 40.40, lng: 71.50, label: "Fergana Valley, SW", source: "Bogdanov 1960" },
+        { lat: 40.70, lng: 72.00, label: "Near Fergana city", source: "Field obs." }
+    ],
+    "Mediodactylus russowii": [
+        { lat: 39.50, lng: 66.00, label: "Samarkand rocks", source: "Bogdanov 1960" },
+        { lat: 38.80, lng: 66.50, label: "Shakhrisabz", source: "Ananjeva et al. 2006" },
+        { lat: 39.00, lng: 67.50, label: "Baysun rocks", source: "Martin et al. 2017" }
+    ],
+    "Tenuidactylus fedtschenkoi": [
+        { lat: 40.00, lng: 66.00, label: "Nuratau Mts.", source: "Bogdanov 1960" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand ruins", source: "Martin et al. 2017" },
+        { lat: 41.30, lng: 69.30, label: "Tashkent old town", source: "Martin et al. 2017" },
+        { lat: 38.80, lng: 66.50, label: "Shakhrisabz", source: "Bogdanov 1960" }
+    ],
+    "Crossobamon eversmanni": [
+        { lat: 40.50, lng: 62.00, label: "Bukhara sands", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 63.00, label: "Kyzylkum central", source: "Bogdanov 1960" },
+        { lat: 39.50, lng: 64.00, label: "SW Kyzylkum", source: "Field obs." }
+    ],
+    "Alsophylax loricatus": [
+        { lat: 40.80, lng: 71.00, label: "Fergana Valley foothills", source: "Bogdanov 1960" },
+        { lat: 41.30, lng: 69.30, label: "Tashkent outskirts", source: "Martin et al. 2017" },
+        { lat: 40.50, lng: 68.00, label: "Jizzakh foothills", source: "Bogdanov 1960" }
+    ],
+    "Eremias velox": [
+        { lat: 41.00, lng: 64.00, label: "Kyzylkum edge", source: "Bogdanov 1960" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand", source: "Martin et al. 2017" },
+        { lat: 41.30, lng: 69.30, label: "Tashkent area", source: "Martin et al. 2017" },
+        { lat: 40.78, lng: 71.79, label: "Fergana Valley", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm", source: "Bogdanov 1960" }
+    ],
+    "Eremias grammica": [
+        { lat: 41.50, lng: 62.50, label: "Kyzylkum NW", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 63.00, label: "Navoi sands", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm desert", source: "Bogdanov 1960" }
+    ],
+    "Eremias lineolata": [
+        { lat: 40.50, lng: 63.00, label: "Navoi region", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 62.50, label: "Kyzylkum", source: "Bogdanov 1960" },
+        { lat: 39.50, lng: 64.00, label: "Bukhara steppe", source: "Martin et al. 2017" }
+    ],
+    "Eremias scripta": [
+        { lat: 40.70, lng: 72.00, label: "Fergana SE", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 71.50, label: "Fergana Valley", source: "Bogdanov 1960" },
+        { lat: 41.00, lng: 71.67, label: "Namangan sands", source: "Field obs." }
+    ],
+    "Eremias intermedia": [
+        { lat: 40.00, lng: 64.00, label: "Kyzylkum south", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 63.00, label: "Kyzylkum central", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm desert", source: "Bogdanov 1960" }
+    ],
+    "Eremias regeli": [
+        { lat: 38.00, lng: 67.50, label: "Surkhandarya foothills", source: "Bogdanov 1960" },
+        { lat: 38.40, lng: 67.80, label: "Denau slopes", source: "Field obs." },
+        { lat: 37.83, lng: 67.60, label: "Termez environs", source: "Bogdanov 1960" }
+    ],
+    "Eremias nigrocellata": [
+        { lat: 38.50, lng: 67.00, label: "Surkhandarya mountains", source: "Bogdanov 1960" },
+        { lat: 38.20, lng: 67.50, label: "Baysun range", source: "Bogdanov 1960" },
+        { lat: 37.83, lng: 67.60, label: "Termez area", source: "Field obs." }
+    ],
+    "Acanthodactylus erythrurus": [
+        { lat: 37.80, lng: 67.80, label: "S Surkhandarya sands", source: "Bogdanov 1960" },
+        { lat: 38.00, lng: 68.00, label: "Babatag foothills", source: "Bogdanov 1960" }
+    ],
+    "Varanus griseus": [
+        { lat: 40.00, lng: 62.00, label: "Kyzylkum, Bukhara region", source: "Red Book Uz 2019" },
+        { lat: 41.50, lng: 63.00, label: "Kyzylkum central", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm desert", source: "Bogdanov 1960" },
+        { lat: 39.50, lng: 64.00, label: "SW Kyzylkum", source: "Field obs." }
+    ],
+    "Pseudopus apodus": [
+        { lat: 41.00, lng: 70.00, label: "W Tian Shan foothills", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 70.20, label: "Chimgan area", source: "Bogdanov 1960" },
+        { lat: 41.30, lng: 69.50, label: "Tashkent hills", source: "Martin et al. 2017" }
+    ],
+    "Eryx tataricus": [
+        { lat: 40.00, lng: 68.00, label: "Jizzakh foothills", source: "Bogdanov 1960" },
+        { lat: 38.50, lng: 67.50, label: "Surkhandarya", source: "Bogdanov 1960" },
+        { lat: 40.78, lng: 71.79, label: "Fergana Valley", source: "Bogdanov 1960" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand area", source: "Martin et al. 2017" }
+    ],
+    "Eryx miliaris": [
+        { lat: 41.00, lng: 62.00, label: "Kyzylkum W", source: "Bogdanov 1960" },
+        { lat: 40.50, lng: 63.00, label: "Navoi sands", source: "Bogdanov 1960" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm desert", source: "Bogdanov 1960" }
+    ],
+    "Natrix tessellata": [
+        { lat: 40.50, lng: 68.00, label: "Syr Darya, Jizzakh", source: "Martin et al. 2017" },
+        { lat: 41.30, lng: 69.20, label: "Chirchik River, Tashkent", source: "Martin et al. 2017" },
+        { lat: 39.65, lng: 66.96, label: "Zarafshan River", source: "Bogdanov 1960" },
+        { lat: 42.46, lng: 59.60, label: "Amu Darya delta", source: "Bogdanov 1960" }
+    ],
+    "Natrix natrix": [
+        { lat: 41.50, lng: 69.50, label: "Tashkent wetlands", source: "Martin et al. 2017" },
+        { lat: 41.73, lng: 70.03, label: "Chimgan streams", source: "Bogdanov 1960" },
+        { lat: 40.78, lng: 71.79, label: "Fergana Valley canals", source: "Bogdanov 1960" }
+    ],
+    "Psammophis lineolatus": [
+        { lat: 40.00, lng: 63.00, label: "Kyzylkum central", source: "Bogdanov 1960" },
+        { lat: 41.50, lng: 62.50, label: "Kyzylkum NW", source: "Bogdanov 1960" },
+        { lat: 39.50, lng: 64.50, label: "Bukhara steppe", source: "Martin et al. 2017" },
+        { lat: 42.00, lng: 60.00, label: "Khorezm", source: "Bogdanov 1960" },
+        { lat: 38.80, lng: 65.80, label: "Karshi steppe", source: "Bogdanov 1960" }
+    ],
+    "Platyceps najadum": [
+        { lat: 40.00, lng: 66.00, label: "Nuratau foothills", source: "Martin et al. 2017" },
+        { lat: 39.00, lng: 67.00, label: "Samarkand–Baysun", source: "Bogdanov 1960" },
+        { lat: 41.00, lng: 69.00, label: "Tashkent outskirts", source: "Martin et al. 2017" }
+    ],
+    "Dolichophis caspius": [
+        { lat: 40.50, lng: 67.00, label: "Jizzakh region", source: "Martin et al. 2017" },
+        { lat: 41.30, lng: 69.30, label: "Tashkent", source: "Martin et al. 2017" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand", source: "Bogdanov 1960" },
+        { lat: 40.78, lng: 71.79, label: "Fergana", source: "Bogdanov 1960" }
+    ],
+    "Elaphe sauromates": [
+        { lat: 38.50, lng: 67.00, label: "Surkhandarya slopes", source: "Bogdanov 1960" },
+        { lat: 38.80, lng: 66.50, label: "Shakhrisabz area", source: "Bogdanov 1960" },
+        { lat: 39.10, lng: 67.30, label: "Zarafshan Range", source: "Field obs." }
+    ],
+    "Lycodon bicolor": [
+        { lat: 39.00, lng: 67.00, label: "Baysun mountains", source: "Bogdanov 1960" },
+        { lat: 38.50, lng: 67.50, label: "Surkhandarya gorges", source: "Bogdanov 1960" },
+        { lat: 38.30, lng: 67.80, label: "Denau area", source: "Field obs." }
+    ],
+    "Boiga trigonata": [
+        { lat: 38.00, lng: 68.00, label: "Babatag Range", source: "Bogdanov 1960" },
+        { lat: 37.83, lng: 67.60, label: "Termez rocks", source: "Bogdanov 1960" },
+        { lat: 38.30, lng: 67.80, label: "Denau shrubs", source: "Field obs." }
+    ],
+    "Ptyas mucosa": [
+        { lat: 37.50, lng: 67.50, label: "Amu Darya tugai", source: "Bogdanov 1960" },
+        { lat: 37.83, lng: 67.60, label: "Termez riverine forest", source: "Bogdanov 1960" }
+    ],
+    "Naja oxiana": [
+        { lat: 39.00, lng: 67.00, label: "Baysun foothills", source: "Kazemi-Lomedasht et al. 2019" },
+        { lat: 38.50, lng: 67.50, label: "Surkhandarya mountains", source: "Bogdanov 1960" },
+        { lat: 41.00, lng: 70.00, label: "W Tian Shan (rare)", source: "Bogdanov 1960" },
+        { lat: 39.65, lng: 66.96, label: "Samarkand foothills", source: "Field obs." }
+    ],
+    "Macrovipera lebetinus": [
+        { lat: 39.00, lng: 68.00, label: "Surkhandarya mountains", source: "Bogdanov 1960" },
+        { lat: 41.60, lng: 70.00, label: "Chimgan, W Tian Shan", source: "Bogdanov 1960" },
+        { lat: 40.70, lng: 71.50, label: "Fergana foothills", source: "Bogdanov 1960" },
+        { lat: 38.50, lng: 67.50, label: "Baysun Range", source: "Martin et al. 2017" }
+    ],
+    "Vipera renardi": [
+        { lat: 42.00, lng: 63.00, label: "Kyzylkum NE steppe", source: "Bogdanov 1960" },
+        { lat: 42.50, lng: 59.50, label: "Karakalpakstan steppe", source: "Shcherbak 1993" },
+        { lat: 41.50, lng: 62.50, label: "NW Kyzylkum edge", source: "Field obs." }
+    ],
+    "Echis multisquamatus": [
+        { lat: 38.00, lng: 67.50, label: "Surkhandarya rocks", source: "Bogdanov 1960" },
+        { lat: 38.40, lng: 67.80, label: "Denau foothills", source: "Bogdanov 1960" },
+        { lat: 37.83, lng: 67.60, label: "Termez environs", source: "Red Book Uz 2019" }
+    ]
+};

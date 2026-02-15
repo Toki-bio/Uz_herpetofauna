@@ -106,6 +106,63 @@ function escapeAttr(str) {
     return str.replace(/'/g, "\\'");
 }
 
+// Auto-linkify DOIs and URLs inside citation text
+function linkifyCitation(text) {
+    // DOI pattern
+    text = text.replace(/\b(10\.\d{4,}\/[^\s,;)]+)/g, '<a href="https://doi.org/$1" target="_blank">$1</a>');
+    // URL pattern (https or http)
+    text = text.replace(/(?<!href=")(https?:\/\/[^\s<,;)]+)/g, '<a href="$1" target="_blank">$1</a>');
+    return text;
+}
+
+// Photo upload helpers
+function triggerPhotoUpload(speciesName) {
+    const input = document.getElementById('photo-file-input');
+    input.setAttribute('data-species', speciesName);
+    input.click();
+}
+
+function handlePhotoUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const speciesName = input.getAttribute('data-species');
+    const sp = speciesData.find(s => s.scientificName === speciesName);
+    if (!sp) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        sp.photo = e.target.result; // base64 data URL
+        sp.photoCaption = sp.photoCaption || '';
+        displaySpeciesDetail(sp);
+    };
+    reader.readAsDataURL(file);
+    input.value = ''; // reset
+}
+
+function setPhotoUrl(speciesName) {
+    const url = prompt('Enter image URL:');
+    if (!url) return;
+    const sp = speciesData.find(s => s.scientificName === speciesName);
+    if (!sp) return;
+    sp.photo = url;
+    sp.photoCaption = sp.photoCaption || '';
+    displaySpeciesDetail(sp);
+}
+
+function removePhoto(speciesName) {
+    const sp = speciesData.find(s => s.scientificName === speciesName);
+    if (!sp) return;
+    sp.photo = null;
+    sp.photoCaption = null;
+    displaySpeciesDetail(sp);
+}
+
+function removeLocality(speciesName, index) {
+    if (!localityData[speciesName]) return;
+    localityData[speciesName].splice(index, 1);
+    const sp = speciesData.find(s => s.scientificName === speciesName);
+    if (sp) displaySpeciesDetail(sp);
+}
+
 // ═══════════════════════════════════════════
 // External Links
 // ═══════════════════════════════════════════
@@ -282,6 +339,28 @@ function displaySpeciesDetail(species) {
     externalLinks.forEach(l => { extLinksHtml += `<a href="${l.url}" target="_blank" class="external-link">${l.name}</a>`; });
     extLinksHtml += '</div>';
 
+    // Photo section
+    let photoHtml = '';
+    if (species.photo) {
+        photoHtml = `
+            <div class="species-section species-photo-section">
+                <img src="${species.photo}" alt="${species.scientificName}" class="species-photo" />
+                ${species.photoCaption ? `<div class="photo-caption">${species.photoCaption}</div>` : ''}
+                <div class="photo-edit-controls">
+                    <button class="edit-btn" onclick="triggerPhotoUpload('${escapeAttr(species.scientificName)}')">Replace photo</button>
+                    <button class="edit-btn" onclick="removePhoto('${escapeAttr(species.scientificName)}')">Remove</button>
+                </div>
+            </div>`;
+    } else {
+        photoHtml = `
+            <div class="species-section species-photo-section photo-placeholder">
+                <div class="photo-upload-area">
+                    <button class="edit-btn" onclick="triggerPhotoUpload('${escapeAttr(species.scientificName)}')">📷 Upload photo</button>
+                    <button class="edit-btn" onclick="setPhotoUrl('${escapeAttr(species.scientificName)}')">🔗 Image URL</button>
+                </div>
+            </div>`;
+    }
+
     // NCBI links
     let ncbiHtml = '';
     if (species.ncbiData && species.ncbiData.length > 0) {
@@ -326,8 +405,9 @@ function displaySpeciesDetail(species) {
                 ${species.publications.map(p => {
                     const typeClass = 'pub-type-' + (p.type || 'review');
                     return `<div class="publication-item">
-                        <span class="pub-citation">${p.citation}</span>
+                        <span class="pub-citation">${linkifyCitation(p.citation)}</span>
                         <span class="pub-type ${typeClass}">${p.type || ''}</span>
+                        ${p.url ? `<a href="${p.url}" target="_blank" class="pub-link">View</a>` : ''}
                         ${p.note ? `<div class="pub-note">${p.note}</div>` : ''}
                     </div>`;
                 }).join('')}
@@ -344,6 +424,8 @@ function displaySpeciesDetail(species) {
             ${extLinksHtml}
         </div>
 
+        ${photoHtml}
+
         ${descriptionHtml}
 
         <div class="species-section">
@@ -358,7 +440,9 @@ function displaySpeciesDetail(species) {
             <h3>Distribution${editBtn('distribution', species)}</h3>
             <p>${species.distribution}</p>
             <div id="edit-distribution" class="edit-field"></div>
-            ${species.coordinates ? '<div id="distribution-map"></div>' : ''}
+            <div id="distribution-map"></div>
+            <div id="locality-legend" class="locality-legend"></div>
+            <div id="locality-controls" class="locality-controls"></div>
         </div>
 
         ${species.habitat ? `
@@ -393,19 +477,101 @@ function displaySpeciesDetail(species) {
         ` : ''}
     `;
 
-    // Map
-    if (species.coordinates) {
-        setTimeout(() => {
-            const mapEl = document.getElementById('distribution-map');
-            if (!mapEl) return;
-            const map = L.map('distribution-map').setView([species.coordinates.lat, species.coordinates.lng], 7);
+    // Map — multi-point localities
+    setTimeout(() => {
+        const mapEl = document.getElementById('distribution-map');
+        if (!mapEl) return;
+
+        // Gather localities
+        const locs = (localityData && localityData[species.scientificName]) || [];
+        const center = species.coordinates || { lat: 40.5, lng: 65.0 };
+
+        if (locs.length === 0 && !species.coordinates) {
+            mapEl.style.display = 'none';
+        } else {
+            const map = L.map('distribution-map').setView([center.lat, center.lng], 6);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap'
             }).addTo(map);
-            L.marker([species.coordinates.lat, species.coordinates.lng]).addTo(map)
-                .bindPopup(`<i>${species.scientificName}</i>`).openPopup();
-        }, 100);
-    }
+
+            // Custom colored icon
+            function locIcon(color) {
+                return L.divIcon({
+                    className: 'loc-marker',
+                    html: `<div style="background:${color};width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>`,
+                    iconSize: [14, 14],
+                    iconAnchor: [7, 7]
+                });
+            }
+
+            const bounds = [];
+
+            // Plot locality points
+            locs.forEach((loc, i) => {
+                const marker = L.marker([loc.lat, loc.lng], { icon: locIcon('#e74c3c') }).addTo(map);
+                marker.bindPopup(`<b>${loc.label}</b><br><small>${loc.source || ''}</small><br><small>${loc.lat.toFixed(3)}, ${loc.lng.toFixed(3)}</small>`);
+                bounds.push([loc.lat, loc.lng]);
+            });
+
+            // Also plot the centroid reference
+            if (species.coordinates) {
+                const refMarker = L.marker([center.lat, center.lng], { icon: locIcon('#3498db') }).addTo(map);
+                refMarker.bindPopup(`<b><i>${species.scientificName}</i></b><br>Reference point`);
+                bounds.push([center.lat, center.lng]);
+            }
+
+            if (bounds.length > 1) {
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 10 });
+            } else if (bounds.length === 1) {
+                map.setView(bounds[0], 8);
+            }
+
+            // Click-to-add in edit mode
+            if (editMode) {
+                map.on('click', function(e) {
+                    const label = prompt('Locality name:');
+                    if (!label) return;
+                    const source = prompt('Source (e.g. "Field obs."):') || 'Added manually';
+                    if (!localityData[species.scientificName]) localityData[species.scientificName] = [];
+                    localityData[species.scientificName].push({
+                        lat: Math.round(e.latlng.lat * 1000) / 1000,
+                        lng: Math.round(e.latlng.lng * 1000) / 1000,
+                        label: label,
+                        source: source
+                    });
+                    displaySpeciesDetail(species); // re-render
+                });
+            }
+
+            // Legend
+            const legendEl = document.getElementById('locality-legend');
+            if (legendEl) {
+                const n = locs.length;
+                legendEl.innerHTML = `
+                    <span class="legend-item"><span class="legend-dot" style="background:#e74c3c;"></span> Locality record (${n})</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#3498db;"></span> Reference point</span>
+                    ${editMode ? '<span class="legend-item" style="color:#888;">Click map to add point</span>' : ''}
+                `;
+            }
+
+            // Edit controls: list & delete
+            const ctrlEl = document.getElementById('locality-controls');
+            if (ctrlEl && editMode && locs.length > 0) {
+                ctrlEl.innerHTML = `<details class="locality-detail"><summary>Locality records (${locs.length})</summary>
+                    <table class="locality-table">
+                        <tr><th>Locality</th><th>Lat</th><th>Lng</th><th>Source</th><th></th></tr>
+                        ${locs.map((loc, i) => `<tr>
+                            <td>${loc.label}</td>
+                            <td>${loc.lat.toFixed(3)}</td>
+                            <td>${loc.lng.toFixed(3)}</td>
+                            <td>${loc.source || ''}</td>
+                            <td><button class="edit-btn" style="display:inline-block" onclick="removeLocality('${escapeAttr(species.scientificName)}', ${i})">✕</button></td>
+                        </tr>`).join('')}
+                    </table>
+                </details>`;
+            }
+        }
+    }, 100);
 
     document.querySelector('.content-area').scrollTop = 0;
 }
@@ -426,8 +592,12 @@ function displayLiterature(literature) {
         div.innerHTML = `
             <h3>${item.title}</h3>
             <div class="authors">${item.authors}</div>
-            <div class="citation">${item.citation}</div>
-            ${item.url ? `<div style="margin-top:0.3rem;"><a href="${item.url}" target="_blank">View</a></div>` : ''}
+            <div class="citation">${linkifyCitation(item.citation)}</div>
+            <div class="lit-links">
+                ${item.url ? `<a href="${item.url}" target="_blank" class="lit-link">🔗 Source</a>` : ''}
+                <a href="https://scholar.google.com/scholar?q=${encodeURIComponent(item.title)}" target="_blank" class="lit-link">📚 Google Scholar</a>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(item.title)}" target="_blank" class="lit-link">🔬 PubMed</a>
+            </div>
         `;
         container.appendChild(div);
     });
