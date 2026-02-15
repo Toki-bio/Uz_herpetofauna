@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herpetofauna of Uzbekistan</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🦎 Herpetofauna of Uzbekistan</h1>
+            <p class="subtitle">A comprehensive database of reptiles and amphibians</p>
+            <div class="last-updated">Last updated: <span id="update-date"></span></div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <a href="#database">Database</a>
+            <a href="#literature">Literature</a>
+            <a href="#research">Research Plans</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Summary Statistics -->
+        <section id="summary" class="section">
+            <h2>Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-species">0</div>
+                    <div class="stat-label">Total Species</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-reptiles">0</div>
+                    <div class="stat-label">Reptiles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-amphibians">0</div>
+                    <div class="stat-label">Amphibians</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="threatened-species">0</div>
+                    <div class="stat-label">Threatened Species</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Species Database -->
+        <section id="database" class="section">
+            <h2>Species Database</h2>
+            
+            <!-- Filters -->
+            <div class="filters">
+                <input type="text" id="search-box" placeholder="Search by scientific or common name..." />
+                
+                <select id="filter-class">
+                    <option value="all">All Classes</option>
+                    <option value="Amphibia">Amphibians</option>
+                    <option value="Reptilia">Reptiles</option>
+                </select>
+                
+                <select id="filter-order">
+                    <option value="all">All Orders</option>
+                </select>
+                
+                <select id="filter-status">
+                    <option value="all">All Conservation Status</option>
+                    <option value="LC">Least Concern</option>
+                    <option value="NT">Near Threatened</option>
+                    <option value="VU">Vulnerable</option>
+                    <option value="EN">Endangered</option>
+                    <option value="CR">Critically Endangered</option>
+                    <option value="DD">Data Deficient</option>
+                </select>
+            </div>
+
+            <!-- Species Cards -->
+            <div id="species-container" class="species-grid">
+                <!-- Species cards will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Literature Section -->
+        <section id="literature" class="section">
+            <h2>Key Literature</h2>
+            <div id="literature-container">
+                <!-- Literature will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Research Plans -->
+        <section id="research" class="section">
+            <h2>Research Plans</h2>
+            <div id="research-container">
+                <!-- Research plans will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="section">
+            <h2>About This Project</h2>
+            <p>This database aims to compile current knowledge on the herpetofauna of Uzbekistan, including distribution data, taxonomic information, conservation status, genomic resources, and ongoing research efforts.</p>
+            
+            <h3>How to Contribute</h3>
+            <p>If you have additional data, corrections, or suggestions, please open an issue or submit a pull request on the <a href="https://github.com/yourusername/uzbekistan-herps" target="_blank">GitHub repository</a>.</p>
+            
+            <h3>Citation</h3>
+            <p>If you use this database in your research, please cite it as:</p>
+            <div class="citation-box">
+                [Your Name]. (2026). Herpetofauna of Uzbekistan Database. GitHub repository: https://github.com/yourusername/uzbekistan-herps
+            </div>
+            
+            <h3>Contact</h3>
+            <p>Email: <a href="/cdn-cgi/l/email-protection#dba2b4aea9f5beb6bab2b79bbea3bab6abb7bef5b8b4b6"><span class="__cf_email__" data-cfemail="8ef7e1fbfca0ebe3efe7e2ceebf6efe3fee2eba0ede1e3">[email&#160;protected]</span></a></p>
+        </section>
+    </main>
+
+    <!-- Species Detail Modal -->
+    <div id="species-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body">
+                <!-- Species details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Uzbekistan Herpetofauna Database | <a href="https://github.com/yourusername/uzbekistan-herps" target="_blank">View on GitHub</a></p>
+        </div>
+    </footer>
+
+    <script data-cfasync="fal

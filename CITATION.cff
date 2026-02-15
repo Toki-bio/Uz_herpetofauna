@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this database in your research, please cite it as below."
+type: dataset
+title: "Herpetofauna of Uzbekistan Database"
+authors:
+  - family-names: "Your-Last-Name"
+    given-names: "Your-First-Name"
+    orcid: "https://orcid.org/0000-0000-0000-0000"  # Optional: add your ORCID
+    email: "your.email@example.com"
+repository-code: "https://github.com/yourusername/uzbekistan-herps"
+url: "https://yourusername.github.io/uzbekistan-herps"
+abstract: "A comprehensive online database of the herpetofauna of Uzbekistan, including distribution data, taxonomic information, conservation status, genomic resources, and research plans."
+keywords:
+  - herpetology
+  - Uzbekistan
+  - Central Asia
+  - biodiversity
+  - reptiles
+  - amphibians
+  - genomics
+license: MIT
+date-released: 2026-02-15
+version: 1.0.0

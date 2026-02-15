@@ -1,0 +1,26 @@
+scientificName,commonName,class,order,family,subfamily,distribution,habitat,iucnStatus,nationalStatus,latitude,longitude,ncbiNucleotide,ncbiGenome,notes,researchPlans
+"Testudo horsfieldii","Central Asian Tortoise","Reptilia","Testudines","Testudinidae","","Throughout Uzbekistan; common in desert and semi-desert regions, foothills","Desert, semi-desert, grassland, agricultural areas. Found up to 2000m elevation.","VU","Protected under national law","41.3775","64.5853","https://www.ncbi.nlm.nih.gov/nuccore/?term=Testudo+horsfieldii","","One of the most common reptile species in Uzbekistan. Subject to illegal collection for pet trade.","Plan to collect population genetic data from different regions; assess phylogeographic structure across Central Asia."
+"Laudakia lehmanni","Lehmann's Rock Agama","Reptilia","Squamata","Agamidae","","Western Tian Shan mountains; recorded from Chimgan, Beldersay, and surrounding areas","Rocky mountain slopes, cliffs, stone walls. Found at 1500-3000m elevation.","LC","","41.5889","70.0131","https://www.ncbi.nlm.nih.gov/nuccore/?term=Laudakia+lehmanni","","Taxonomy requires revision; relationship to other Laudakia species unclear.","Collect tissue samples for phylogenetic analysis; clarify taxonomic status within Laudakia complex."
+
+# Instructions for using this template:
+# 1. Fill in your species data following the format above
+# 2. Use the provided Python script (csv_to_js.py) to convert this CSV to JavaScript format
+# 3. Or manually add the data to js/data.js following the structure there
+#
+# Field descriptions:
+# - scientificName: Full scientific name with authority (e.g., "Testudo horsfieldii Gray, 1844")
+# - commonName: Common English name (can be empty)
+# - class: Either "Reptilia" or "Amphibia"
+# - order: Taxonomic order
+# - family: Taxonomic family
+# - subfamily: Taxonomic subfamily (can be empty)
+# - distribution: Description of where found in Uzbekistan
+# - habitat: Habitat description
+# - iucnStatus: LC, NT, VU, EN, CR, or DD
+# - nationalStatus: National conservation status (can be empty)
+# - latitude: Latitude coordinate for map
+# - longitude: Longitude coordinate for map
+# - ncbiNucleotide: URL to NCBI nucleotide search (can be empty)
+# - ncbiGenome: URL to NCBI genome search (can be empty)
+# - notes: Additional notes about the species
+# - researchPlans: Your research plans for this species
