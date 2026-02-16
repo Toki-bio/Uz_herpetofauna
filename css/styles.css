@@ -285,12 +285,41 @@ header h1 { font-size: 1.35rem; font-weight: 600; }
 .species-common-name {
     font-size: 1.1rem;
     color: var(--text-medium);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.3rem;
+}
+.species-alt-name {
+    font-size: 0.92rem;
+    color: var(--text-light);
+    margin-bottom: 0.15rem;
 }
 .species-taxonomy {
     font-size: 0.9rem;
     color: var(--text-light);
     line-height: 1.6;
+    margin-top: 0.4rem;
+}
+.region-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.region-tag {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.region-present {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.region-absent {
+    background: #f8f9fa;
+    color: #ccc;
+    border: 1px solid #eee;
+    font-size: 0.75rem;
 }
 .species-header-actions {
     display: flex;

@@ -1,0 +1,110 @@
+№,№,ID ,Scientific name,Russian name,Uzbek name,English name,IUCN  status (2025-1),Uzbekistan Red Data Book (2019),CITES,Endemism,Andijan region,Fergana region,Namangan region,Tashkent region,Syrdarya region,Jizzak region,Samarkand region,Kashkadarya region,Surkhandarya region,Bukhara region,Navoi region,Khorezm region,Karakalpakstan
+1,1,0033010171,"Testudo horsfieldii (Gray, 1844)",Среднеазиатская черепаха,Ўрта Осиё чўл тошбақаси,Central Asian tortoise,VU,2(VU),II,"UZ, TJ, TM, KZ, KG, 
+IR, AF, CN, PK",Х,Х,Х,,Х,Х,Х,Х,Х,Х,Х,Х,Х
+2,2,0033040241,"Alsophylax laevis Nikolsky, 1907 ",Гладкий геккончик ,Силлиқ гекконча,Southern Even-fingered Gecko,CR,2(VU:D),,"UZ, TM",,Х,Х,,,,,,Х,Х,Х,,
+,3,,"Alsophylax ferganensis Nazarov, Abduraupov et al, 2023",Ферганский геккончик,Фаргона геккончаси,Fergana Even-fingered Gecko,,,,UZ,,X,,,,,,,,,,,
+,4,,"Alsophylax emilia Nazarov, Abduraupov et al, 2023",Геккончик Эмилии,Эмилия геккончаси,Emilia’s Even-fingered Gecko,,,,UZ,,,X,,,,,,,,,,
+3,5,0033040251,"Alsophylax loricatus Strauch, 1887",Панцирный геккончик ,Қалқонли гекконча ,Strauch’s Even-fingered Gecko,VU,1(EN),,"UZ, TJ",,Х,,,,,,,,,,,
+4,6,0033040261,"Alsophylax szczerbaki Golubev et Sattarov, 1979",Панцирный геккончик Щербака,Шчербак Қалқонли гекконча ,Szczerbak’s Even-fingered Gecko ,VU,1(EN),,"UZ, TM",,,,,,,,,,,,Х,Х
+5,7,,"Alsophylax pipiens (Pallas, 1827)",Пискливый геккончик ,Чийилдоқ гекконча,Caspian Even-fingered Gecko,LC,,,,,,,,,,,,,,,,Х
+6,8,,"Crossobamon eversmanni (Wiegmann, 1834)",Гребнепалый геккон Эверсманна ,Тароқ бармоқли геккон,Comb-toed Gecko,,,,"UZ, TJ, TM, KZ, IR, AF",,,,,,Х,,Х,Х,Х,Х,Х,Х
+7,9,,"Tenuidactylus caspius (Eichwald,1831) ",Тонкопалый каспийский геккон ,Каспий геккони ,Caspian Bent-Toed Gecko,LC,,,,,,,,,,,Х,Х,Х,Х,Х,Х
+,"9,1",,Tenuidactylus caspius caspius (EICHWALD 1831),Тонкопалый каспийский геккон ,Каспий геккони ,Caspian Bent-Toed Gecko,LC,,,,,,,,,,,Х,Х,Х,Х,Х,Х
+8,10,0033042703,"Tenuidactylus fedtschenkoi (Strauch,1887)",Тонкопалый туркестанский геккон ,Туркестон геккони ,Turkestan Thin-Toed Gecko,LC,,,"UZ, TJ, TM, KZ, AF",,,,,,Х,Х,Х,,Х,Х,,
+9,11,,"Tenuidactylus bogdanovi Nazarov et Poyarkov, 2013",Тонкопалый геккон Богданова,Богданов геккони,Bogdanov’s Thin-Toed Gecko,LC,,,"UZ, TJ, TM",,,,Х,,,,Х,Х,,,,
+10,12,0033042713,"Mediodactylus russowi (Strauch, 1887)",Серый геккон,Кул ранг геккон ,Transcaspian Bent-Toed Gecko,LC,,,"UZ, TJ, TM, KZ, KG, 
+IR, RU",Х,Х,Х,Х,Х,Х,,,,Х,Х,Х,Х
+11,13,0033042723,"Teratoscincus scincus (Schlegel, 1858)",Сцинковый геккон ,Сцинк геккони ,Common Wonder Gecko,LC,,,"UZ, TJ, TM, KG, IR,CN",,,,,,Х,,Х,Х,Х,Х,Х,Х
+12,14,0033020231,"Teratoscincus rustamowi Szczerbak, 1979",Сцинковый геккон Рустамова ,Рустамов сцинк геккони ,Rusramov's Wonder Gecko,EN,1(EN),,"UZ, TJ,",Х,Х,Х,,,,,,,,,,
+13,15,,"Paralaudakia bochariensis (Nikolsky, 1897)",Стеллион бухарский,Бухоро тоғ агамаси ,Bucharian Rock Agama,LC,,,"UZ, TJ, KG, TM",,,,,,,,Х,Х,,,,
+14,16,,"Paralaudakia himalayana (Steindachner, 1867)",Гималайский стеллион ,Ҳимолой агамаси,Himalayan Rock Agama,LC,,,"UZ, TJ, KG, AF, PK, IN,
+NP",,Х,,,,,,,,,,,
+15,17,0033022673,"Paralaudakia lehmanni (Nikolsky,1896)",Туркестанский стеллион ,Туркистон агамаси,Turkestan Rock Agama,LC,,,"UZ, TJ, TM, KG, AF",,Х,,,,Х,Х,Х,Х,,Х,,
+16,18,,"Trapelus sanguinolentus (Pallas, 1814)",Степная агама ,Дашт агамаси ,Steppe Agama,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+"16,1","18,1",0033022683,Trapelus sanguinolentus aralensis (LICHTENSTEIN 1823),Степная агама ,Дашт агамаси ,Steppe Agama,,,,"UZ, TJ, TM, KZ, KG",Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+17,19,,"Phrynocephalus guttatus (Gmelin, 1789)",Круглоголовка-вертихвостка,Гажакдум тўгаракбош ,Spotted Toad-headed Agama,LC,,,"UZ, TM, KZ, RU, CN",,,,,,,,,,,,,Х
+,"19,1",0033020181,"Phrynocephalus guttatus moltschanovi Nikolsky, 1913",Круглоголовка Молчанова,Молчанов тўгаракбоши,Molchanov’s Toad-headed Agama,LC,3(NT),,"UZ, KZ",,,,,,,,,,,,,Х
+"17,1","19,2",,"Phrynocephalus guttatus salsatus GOLUBEV, 
+GORELOV, DUNAYEV & KOTENKO 1995",Казахлышорская вертихвостка,-,-,,,,"UZ, TM, ",,,,,,,,,,,,,Х
+18,20,,"Phrynocephalus helioscopus (Pallas,1771)",Такырная круглоголовка ,Тақир тўгаракбоши,Sunwatcher Toad-headed Agama,LC,,,,,Х,Х,,Х,Х,Х,Х,Х,Х,Х,Х,Х
+"18,1","20,1",0033022653,"Phrynocephalus helioscopus  helioscopus (Pallas,1771)",Такырная круглоголовка ,Тақир тўгаракбоши,Sunwatcher Toad-headed Agama,,,,,,,,,,,,,,,,Х,Х
+"18,3","20,3",0033022653,"Phrynocephalus helioscopus meridionalis 
+Dunayev, Solovyeva, Poyarkov",Южная такырная круглоголовка,,,,,,"UZ, TM, AF",,,,,,,,Х,Х,Х,,,
+"18,4","20,4",0033022653,"Phrynocephalus helioscopus sergeevi Dunayev,Solovyeva, Poyarkov",Такырная круглоголовка Сергеева,,,,,,"UZ, TJ",,,,,Х,Х,Х,,,Х,Х,,
+,21,0033020211,"Phrynocephalus saidalievi
+ Sattorov, 1981",Круглоголовка Саид-Алиева,Саид-Алиев  тўгаракбоши,Said-Aliev Toad-head Agama,VU,1(EN),,"UZ, TJ, KG",,Х,Х,,,,,,,,,,
+,"21,1",0033020211,"Phrynocephalus saidalievi saidalievi
+ Sattorov, 1981",Круглоголовка Саид-Алиева,Саид-Алиев  тўгаракбоши,Said-Aliev Toad-head Agama,VU,1(EN),,"UZ, TJ, KG",,Х,,,,,,,,,,,
+,"21,2",0033020211,"Phrynocephalus saidalievi orlovae Solovyeva, Nazarov, Dunayev, Abduraupov & Poyarkov, 2025",Круглоголовка Орловой ,Орлова тўгаракбоши,Orlova Toad-head Agama,VU,1(EN),,"UZ, TJ, KG",,,Х,,,,,,,,,,
+19,22,,"Phrynocephalus interscapularis Lichtenstein & Martens, 1856",Песчаная круглоголовка ,Қум тўгаракбоши ,Lichtenstein's Toadhead Agama,LC,,,"UZ, TM, KZ, AF, IR",,,,,,,,Х,,Х,Х,Х,Х
+21,23,,"Phrynocephalus mystaceus (Pallas, 1776)",Ушастая круглоголовка ,Қизил қўлоқ калтакесак,Secret Toad-headed Agama,LC,,,,,,,,,,,Х,Х,Х,Х,Х,Х
+,"23,1",,"Phrynocephalus mystaceus mystaceus (Pallas, 1776)",Ушастая круглоголовка ,Қизил қўлоқ калтакесак,Secret Toad-headed Agama,,,,,,,,,,,,Х,Х,Х,Х,Х,Х
+22,24,,"Phrynocephalus raddei Boettger, 1888",Круглоголовка Радде ,Каспий тўгаракбоши ,Radde’s Toad-headed Agama,LC,,,,,,,,,,,,Х,,,,
+"22,1","24,1",0033020221,"Phrynocephalus raddei boettgeri 
+Von Bedriaga, 1906",Закаспийская круглоголовка Беттгера,Беттгер каспий тўгаракбоши ,Boettger Caspian Toad-head Аgаmа,,2(VU:D),,"UZ, TJ, TM",,,,,,,,,Х,,,,
+23,25,,"Phrynocephalus reticulatus (Eichwald, 1831)",Сетчатая круглоголовка ,Матрап тўгаракбоши,Reticulated Toad-headed Agama,LC,,,"UZ, TM",,,,,,,,,,Х,Х,,Х
+"23,1","25,1",,"Phrynocephalus reticulatus reticulatus (Eichwald, 1831)",Сетчатая круглоголовка ,Матрап тўгаракбоши,Reticulated Toad-headed Agama,LC,,,"UZ, TM",,,,,,,,,,Х,Х,,
+"23,2","25,2",,"Phrynocephalus reticulatus bannikovi DAREVSKY, RUSTAMOV & SHAMMAKOV 1976",Сетчатая круглоголовка Банникова,,,LC,,,"UZ, TM",,,,,,,,,,,,,Х
+24,26,,"Phrynocephalus rossikowi Nikolsky, 1898",Хентаунская круглоголовка,Хентоғ тўгаракбоши,Khentau Toad-headed Agama,EN,,,"UZ, TM",,,,,,,,,,,,,Х
+"24,1","26,1",0033020191,"Phrynocephalus rossikowi rossikowi Nikolsky, 1898",Хентаунская круглоголовка,Хентоғ тўгаракбоши,Khentau Toad-headed Agama,EN,1(EN),,"UZ, TM",,,,,,,,,,,,,Х
+25,27,,"Phrynocephalus sogdianus Cernov, 1948",Согдианская круглоголовка,Согдиана тўгаракбоши,Tajikistan Toad-headed Agama,EN,,,"UZ, TJ",,,,,,,,,Х,,,,
+26,28,0033020201,"Phrynocephalus strauchi Nikolsky, 1899",Круглоголовка Штрауха ,Штраух тўгаракбоши,Fergana Toad-headed Agama,VU,1(EN),,"UZ, TJ, KG",Х,Х,Х,,,,,,,,,,
+27,29,,"Pseudopus apodus (Pallas, 1775)",Желтопузик,Сариқилон,European Glass Lizard,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,,Х,,
+"27,1","29,1",0033032693,"Pseudopus apodus apodus (Pallas, 1775)",Желтопузик,Сариқилон,European Glass Lizard,,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,,Х,,
+28,30,,"Ablepharus deserti Strauch, 1868",Пустынный гологлаз ,Чўл тақиркўзлиси,Desert Lidless Skink ,LC,,,"UZ, TJ, TM, KZ, KG",Х,Х,Х,Х,Х,Х,Х,,,Х,Х,Х,Х
+29,31,,"Ablepharus pannonicus (Fitzinger, 1824)",Азиатский гологлаз ,Осиё тақиркўзлиси,Asian Snake-eyed Skink,LC,,,,,,,,,,Х,Х,Х,,,,
+30,32,,"Asymblepharus alaicus (Elpatjevsky, 1901)",Алайский ложный гологлаз,Олой тақиркўзлиси,Alai Ground Skink,LC,,,"UZ, TJ, KZ, KG,CN",,,Х,Х,,,,Х,Х,,,,
+,"32,1",,Ablepharus alaicus yakovlevae (EREMCHENKO 1983) ,Гологлаз Яковлевой,Яковлева тақиркўзлиси,             -,,,,"UZ, TJ, KZ, KG",,,Х,Х,,,,Х,Х,,,,
+31,33,,"Eumeces schneideri (Daudin, 1802)",Длинноногий сцинк ,Узуноёқ сцинк ,Schneider's Skink,LC,,,,,,,Х,Х,Х,Х,Х,Х,,Х,,
+"31,1","33,1",0033062763,Eumeces schneiderii princeps (EICHWALD 1839),Длинноногий сцинк ,Узуноёқ сцинк ,Schneider's Skink,,,,,,,,Х,Х,Х,Х,Х,Х,,Х,,
+32,34,0033052733,"Eremias arguta Pallas,1773",Разноцветная ящурка ,Ранг-баранг калтакесакча,Steppe Racerunner,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,,Х,Х,,Х
+"32,1","34,1",,"Eremias arguta arguta Pallas,1773",Разноцветная ящурка ,Ранг-баранг калтакесакча,Steppe Racerunner,LC,,,,,,,,,,,,,,,,Х
+"32,2","34,2",,Eremias arguta uzbekistanica CHERNOV 1934 ,Узбекистанская разноцветная ящурка,Ранг-баранг калтакесакча,,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,,Х,Х,,
+33,35,0033052743,"Eremias grammica (Lichtenstein, 1823)",Сетчатая ящурка ,Тўр  калтакесакча,Reticulate Racerunner,LC,,,,,,,,,Х,,Х,Х,Х,Х,Х,Х
+34,36,,"Eremias intermedia (Strauch, 1876)",Средняя ящурка ,Ўртача калтакесакча,Aralo-Caspian Racerunner,LC,,,,,,,,,,Х,Х,,Х,Х,Х,Х
+35,37,,"Eremias lineolata (Nikolsky, 1897)",Линейчатая ящурка ,Чизиқли калтакесакча,Striped Racerunner ,LC,,,"UZ, TJ, TM, KZ, IR, AF",,,,,,,,Х,Х,Х,Х,Х,Х
+36,38,0033050271,"Eremias nigrocellata Nikolsky, 1896",Черноглазчатая ящурка ,Қоракўзчали калтакесакча,Black-Ocellated Racerunner ,LC,2(VU:D),,"UZ, TJ, TM, IR, AF",,,,,,,,,Х,,,,
+37,39,,"Eremias nikolskii Nikolsky, 1905",Ящурка Никольского ,Никольский калтакесакчаси,Kirgiz Racerunner,LC,,,"UZ, TJ, KG",,,Х,Х,,,,,,,,,
+38,40,,"Eremias regeli Nikolsky, 1905",Таджикская ящурка ,Тожик калтакесакчаси ,Tajik Racerunner,LC,,,"UZ, TJ, TM, AF",,,,,,,,Х,Х,,,,
+39,41,,"Eremias scripta (Strauch, 1867)",Полосатая ящурка ,Тарғил калтакесакча,Sand Racerunner ,LC,,,,Х,Х,Х,,,Х,,Х,Х,Х,Х,Х,Х
+"39,1","41,1",,"Eremias scripta scripta (Strauch, 1867)",Полосатая ящурка ,Тарғил калтакесакча,Sand Racerunner ,LC,,,,Х,Х,Х,,,Х,,Х,Х,Х,Х,Х,Х
+"39,2","41,2",0033050281,"Eremias scripta pherganensis Szczerbak & 
+Washetko, 1973",Ферганская песчанная ящурка,Фарғона қум калтакесаги,Ferghana Sand Racerunner,,1(EN),,"UZ, TJ",Х,Х,Х,,,,,,,,,,
+"39,3",42,,"Eremias lasdini (Tzarevsky, 1918)",Ящурка Лаздина,-,Lasdin's sand Racerunner,,,,"UZ, TJ",,,,,,,,,Х,,,,
+40,43,,"Eremias velox (Pallas, 1771)",Быстрая ящурка ,Тез калтакесакча ,Rapid Racerunner,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+"40,1","43,1",0033052753,"Eremias velox velox (Pallas, 1771)",Быстрая ящурка ,Тез калтакесакча ,Rapid Racerunner,,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+"41,1",44,0033070291,Varanus caspius (EICHWALD 1831),Среднеазиатский варан,Бўз  эчкемар,Caspian Monitor,,2(VU:D),I,,Х,Х,Х,,,Х,Х,Х,Х,Х,Х,Х,
+42,45,,"Xerotyphlops vermicularis (Merrem, 1820)",Червеобразная слепозмейка,Кўрилон,Eurasian Blind Snake,LC,,,,,,,,,,,,Х,,,,
+43,46,,"Eryx miliaris (Pallas, 1773)",Песчаный удавчик,Қум бўғма илони,Desert Sand Boa,LC,,II,,,,,,,,,Х,,Х,Х,Х,Х
+,"46,1",0033080301,"Eryx miliaris miliaris (Pallas, 1773)",Песчаный удавчик,Қум бўғма илони,Desert Sand Boa,,3(NT),II,"UZ, KZ, TM, RU",,,,,,,,Х,,Х,Х,Х,Х
+44,47,0033080311,"Eryx tataricus (Lichtenstein, 1823)",Восточный удавчик ,Шарқ бўғма илони,Tatary Sand Boa,LC,3(NT),II,"UZ, KZ, KG, TM, IR, 
+CN, MN, TJ, AF",Х,Х,Х,Х,Х,Х,Х,Х,Х,,Х,,Х
+"44,1","47,1",0033080311,"Eryx tataricus tataricus (Lichtenstein, 1823)",Восточный удавчик ,Шарқ бўғма илони,Tatary Sand Boa,,3(NT),II,"UZ, KZ, KG, TM, IR, 
+CN, MN, TJ, AF",Х,Х,Х,Х,Х,Х,Х,Х,,,Х,,Х
+"44,2","47,2",0033080311,"Eryx tataricus speciosus Tsarevsky, 1916 ",Белобрюхий восточный удавчик ,-,-,,3(NT),II,"UZ, TJ",,,,,,,,,Х,,,,
+45,48,,"Boiga trigonata (Schneider, 1802)",Индийская бойга,Бойга,Indian Gamma Snake,LC,,,"UZ, TJ, TM, IR, AF, 
+IN, PK",,,,,,,,,Х,,Х,,
+,"48,1",0033090321,Boiga trigonata melanocephala (ANNANDALE 1904) ,Черноголовая индийская бойга,Ҳинд бойгаси,Indian Gamma Snake,,2(VU:R),,"UZ, TJ, TM, IR, AF",,,,,,,,,,,,,
+47,49,0033092773,"Hemorrhois ravergieri (Menetries, 1832)",Разноцветный полоз ,Ранг-баранг чипор илон,Spotted Whip Snake,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+48,50,,"Platyceps karelinii (Brandt, 1838)",Поперечнополосатый полоз,"Қўндаланг-йўлли чипор 
+илон",Spotted Desert Racer,LC,,,,,X,,,Х,Х,Х,Х,Х,Х,Х,Х,Х
+49,51,,"Platyceps rhodorhachis (Jan, 1863)",Краснополосый полоз ,"Қўндаланг-йўлли чипор 
+илон",Jan's Cliff Racer,LC,,,,,Х,Х,Х,Х,Х,Х,Х,Х,,Х,,
+50,52,,"Elaphe dione (Pallas, 1773)",Узорчатый полоз ,Нақшдор чипор илон,Steppe Rat Snake,LC,,,,Х,Х,Х,Х,Х,Х,Х,,,Х,Х,,Х
+51,53,0033090331,"Elaphe sauromates (Pallas, 1811)",Палласов полоз,Тўрт йўлли чипор илони,Blotched Rat Snake,LC,2(VU:R),,,,,,,,,,,,,,,Х
+"52,2",54,0033090341,Lycodon bicolor (NIKOLSKY 1903),Поперечнополосатый волкозуб,"Кўндаланг йўлли 
+бўритиш илон",Northern Wolfsnake,,2(VU:R),,"UZ, TM, TJ, IR, AF",,,,Х,Х,Х,Х,Х,Х,,,,
+53,55,0033090351,"Lytorhynchus ridgewayi Boulenger, 1887",Афганский литоринх ,Афғон литоринхи,Derafshi Snake ,LC,2(VU:R),,"UZ, TM, IR, AF, PK",,,,,,,,Х,Х,Х,Х,,
+54,56,0033092783,"Natrix tessellata (Laurenti, 1768)",Водяной уж ,Сувилон,Dice Snake,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+55,57,,"Psammophis lineolatus (Brandt, 1838)",Стрела-змея ,Ўқилон,Steppe Ribbon Racer,LC,,,,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х,Х
+56,58,,"Spalerosophis diadema (Schlegel, 1837)",Чешуелобый полоз ,Холдор чипор илон ,Diadem Snake,LC,,,,,Х,Х,,,Х,Х,Х,Х,Х,Х,Х,Х
+"56,1","58,1",,Spalerosophis diadema schirazianus (JAN 1863) ,Чешуелобый полоз ,Холдор чипор илон ,Diadem Snake,,,,,,Х,Х,,,Х,Х,Х,Х,Х,Х,Х,Х
+57,59,0033100361,"Naja oxiana (Eichwald, 1831)",Среднеазиатская кобра ,Капча илон,Central Asian Cobra,NT,3(NT),II,"UZ, TM, TJ, IR, AF, PK",,,,,,,Х,Х,Х,,Х,,
+59,60,,"Gloydius caraganus (Eichwald, 1831)",Караганский щитомордник ,Караган буш илон,Karaganda Pitviper,LC,,,"UZ, KZ, KG, TM, TJ",,,,,,,,,,,,,Х
+60,61,0033112793,"Echis carinatus (Schneider, 1801)",Песчаная эфа,Қум чархилони ,Saw-scaled Viper,LC,,,,,,,,,,,Х,Х,Х,,,Х
+,"61,1",,Echis carinatus sochureki STEMMLER 1969 ,Песчаная эфа,Қум чархилони ,Sindh Saw-scaled Viper,,,,,,,,,,,,Х,Х,Х,,,Х
+61,62,,"Vipera renardi (Christoph, 1861)",Восточная степная гадюка,Дашт қора илони ,Steppe Viper,NT,,,,,,,Х,Х,,,,,,,,
+"61,1","62,1",0033110371,Vipera renardi tienshanica NILSON & ANDRÉN 2001 ,Восточная степная гадюка,Дашт қора илони ,Steppe Viper,NT,2(VU:D),,"UZ, KZ, KG, TJ",,,,Х,Х,,,,,,,,
+62,63,0033112803,"Macrovipera lebetinus (LINNAEUS, 1758)",Гюрза,Кўлвор илон ,Levantine [Blunt-nosed] Viper,LC,,,,,,,,,Х,Х,Х,Х,Х,Х,Х,
+62.1,63.1,,Macrovipera lebetinus turanica (CHERNOV 1939) ,Среднеазиатская гюрза,Кўлвор илон ,Levantine [Blunt-nosed] Viper,,,,"UZ, TJ",,,,,,Х,Х,Х,,,Х,,
+62.2,63.2,,Macrovipera lebetinus cernovi (CHIKIN & SZCZERBAK 1992),Гюрза Чернова,Кўлвор илон ,Levantine [Blunt-nosed] Viper,,,,"UZ, TM, AF, IR, IN, PK ",,,,,,,,,Х,Х,,Х,

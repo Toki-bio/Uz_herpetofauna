@@ -32,7 +32,8 @@ function updateStatistics() {
     document.getElementById('threatened-species').textContent = threatened;
     document.getElementById('welcome-total').textContent = total;
     document.getElementById('welcome-threatened').textContent = threatened;
-    document.getElementById('welcome-endemic').textContent = '5-10';
+    const endemic = speciesData.filter(s => s.endemism && s.endemism.startsWith('UZ') && !s.endemism.includes(',')).length;
+    document.getElementById('welcome-endemic').textContent = endemic || '~5';
 }
 
 // ═══════════════════════════════════════════
@@ -453,6 +454,8 @@ function displaySpeciesDetail(species) {
         <div class="species-header">
             <h2>${species.scientificName}</h2>
             ${species.commonName ? `<div class="species-common-name">${species.commonName}</div>` : ''}
+            ${species.russianName ? `<div class="species-alt-name">🇷🇺 ${species.russianName}</div>` : ''}
+            ${species.uzbekName ? `<div class="species-alt-name">🇺🇿 ${species.uzbekName}</div>` : ''}
             <div class="species-taxonomy">
                 ${species.class} › ${species.order} › ${species.family}${species.subfamily ? ' › ' + species.subfamily : ''}
             </div>
@@ -474,8 +477,20 @@ function displaySpeciesDetail(species) {
         <div class="species-section">
             <h3>Conservation Status</h3>
             <span class="status-badge status-${species.iucnStatus}">${statusText[species.iucnStatus] || species.iucnStatus}</span>
-            ${species.nationalStatus ? `<p style="margin-top:0.5rem;font-size:0.9rem;">National: ${species.nationalStatus}</p>` : ''}
+            ${species.nationalStatus ? `<p style="margin-top:0.5rem;font-size:0.9rem;"><strong>Red Book UZ:</strong> ${species.nationalStatus}</p>` : ''}
+            ${species.cites ? `<p style="margin-top:0.3rem;font-size:0.9rem;"><strong>CITES:</strong> Appendix ${species.cites}</p>` : ''}
+            ${species.endemism ? `<p style="margin-top:0.3rem;font-size:0.9rem;"><strong>Range:</strong> ${species.endemism}</p>` : ''}
         </div>
+
+        ${species.regions ? `
+        <div class="species-section">
+            <h3>Regional Distribution</h3>
+            <div class="region-grid">
+                ${Object.entries(species.regions).map(([r, present]) =>
+                    `<span class="region-tag ${present ? 'region-present' : 'region-absent'}">${r}</span>`
+                ).join('')}
+            </div>
+        </div>` : ''}
 
         ${subspeciesHtml}
 
