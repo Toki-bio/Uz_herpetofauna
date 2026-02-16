@@ -456,7 +456,15 @@ function displaySpeciesDetail(species) {
             <div class="species-taxonomy">
                 ${species.class} › ${species.order} › ${species.family}${species.subfamily ? ' › ' + species.subfamily : ''}
             </div>
-            ${extLinksHtml}
+            <div class="species-header-actions">
+                ${extLinksHtml}
+                <div class="inline-compare">
+                    <select id="inline-compare-select" onchange="inlineCompare('${escapeAttr(species.scientificName)}', this.value)">
+                        <option value="">Compare with…</option>
+                        ${buildPhyloSortedOptions(species)}
+                    </select>
+                </div>
+            </div>
         </div>
 
         ${photoHtml}
@@ -730,22 +738,99 @@ function setupEventListeners() {
 let compareList = [];
 
 function initCompare() {
+    populateCompareSelect(null);
+}
+
+// Sort species by phylogenetic relatedness to a reference species
+function phyloSort(refSpecies, list) {
+    const refGenus = refSpecies ? refSpecies.scientificName.split(' ')[0] : '';
+    const refFamily = refSpecies ? refSpecies.family : '';
+    const refOrder = refSpecies ? refSpecies.order : '';
+    const refClass = refSpecies ? refSpecies.class : '';
+
+    return [...list].sort((a, b) => {
+        const scoreA = phyloScore(a, refGenus, refFamily, refOrder, refClass);
+        const scoreB = phyloScore(b, refGenus, refFamily, refOrder, refClass);
+        if (scoreA !== scoreB) return scoreA - scoreB; // lower = closer
+        return a.scientificName.localeCompare(b.scientificName);
+    });
+}
+
+function phyloScore(sp, refGenus, refFamily, refOrder, refClass) {
+    const genus = sp.scientificName.split(' ')[0];
+    if (genus === refGenus) return 0;       // same genus
+    if (sp.family === refFamily) return 1;   // same family
+    if (sp.order === refOrder) return 2;     // same order
+    if (sp.class === refClass) return 3;     // same class
+    return 4;                                // different class
+}
+
+function populateCompareSelect(refSpecies) {
     const select = document.getElementById('compare-species-select');
     if (!select) return;
     select.innerHTML = '<option value="">— Select species —</option>';
-    const sorted = [...speciesData].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+    const sorted = phyloSort(refSpecies, speciesData);
+    let lastGroup = -1;
+    const groupLabels = ['Same genus', 'Same family', 'Same order', 'Same class', 'Other'];
+    const refGenus = refSpecies ? refSpecies.scientificName.split(' ')[0] : '';
+    
     sorted.forEach(sp => {
+        if (refSpecies && sp.scientificName === refSpecies.scientificName) return;
+        const score = refSpecies ? phyloScore(sp, refGenus, refSpecies.family, refSpecies.order, refSpecies.class) : -1;
+        if (refSpecies && score !== lastGroup) {
+            const og = document.createElement('optgroup');
+            og.label = groupLabels[score] || 'Other';
+            select.appendChild(og);
+            lastGroup = score;
+        }
         const opt = document.createElement('option');
         opt.value = sp.scientificName;
         opt.textContent = sp.scientificName + (sp.commonName ? ' (' + sp.commonName + ')' : '');
-        select.appendChild(opt);
+        const parent = select.querySelector('optgroup:last-of-type');
+        if (parent && refSpecies) parent.appendChild(opt);
+        else select.appendChild(opt);
     });
+}
+
+function buildPhyloSortedOptions(refSpecies) {
+    const sorted = phyloSort(refSpecies, speciesData);
+    const refGenus = refSpecies.scientificName.split(' ')[0];
+    const groupLabels = ['Same genus', 'Same family', 'Same order', 'Same class', 'Other'];
+    let html = '';
+    let lastGroup = -1;
+    sorted.forEach(sp => {
+        if (sp.scientificName === refSpecies.scientificName) return;
+        const score = phyloScore(sp, refGenus, refSpecies.family, refSpecies.order, refSpecies.class);
+        if (score !== lastGroup) {
+            if (lastGroup >= 0) html += '</optgroup>';
+            html += `<optgroup label="${groupLabels[score]}">`;
+            lastGroup = score;
+        }
+        html += `<option value="${sp.scientificName}">${sp.scientificName}${sp.commonName ? ' (' + sp.commonName + ')' : ''}</option>`;
+    });
+    if (lastGroup >= 0) html += '</optgroup>';
+    return html;
+}
+
+function inlineCompare(currentName, otherName) {
+    if (!otherName) return;
+    compareList = [currentName, otherName];
+    showSection('compare');
+    // Also update the compare section's select to be sorted relative to the first species
+    const ref = speciesData.find(s => s.scientificName === currentName);
+    if (ref) populateCompareSelect(ref);
+    renderComparison();
 }
 
 function addCompareSpecies(name) {
     if (compareList.includes(name)) return;
     if (compareList.length >= 6) { alert('Max 6 species for comparison'); return; }
     compareList.push(name);
+    // Re-sort the select relative to the first species in the list
+    if (compareList.length === 1) {
+        const ref = speciesData.find(s => s.scientificName === name);
+        if (ref) populateCompareSelect(ref);
+    }
     renderComparison();
 }
 
@@ -756,6 +841,7 @@ function removeCompareSpecies(name) {
 
 function clearCompare() {
     compareList = [];
+    populateCompareSelect(null);
     renderComparison();
 }
 

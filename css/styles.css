@@ -79,8 +79,8 @@ header h1 { font-size: 1.35rem; font-weight: 600; }
    COMPACT Phylogenetic Tree Navigation
    ═══════════════════════════════════════════ */
 .tree-navigation {
-    width: 280px;
-    min-width: 280px;
+    width: 260px;
+    min-width: 260px;
     background-color: var(--tree-bg);
     border-right: 1px solid var(--border-color);
     display: flex;
@@ -244,7 +244,7 @@ header h1 { font-size: 1.35rem; font-weight: 600; }
 .content-section {
     display: none;
     padding: 1.5rem 2.5rem;
-    max-width: 900px;
+    max-width: 1200px;
 }
 .content-section.active { display: block; }
 
@@ -292,6 +292,25 @@ header h1 { font-size: 1.35rem; font-weight: 600; }
     color: var(--text-light);
     line-height: 1.6;
 }
+.species-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+.inline-compare select {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-medium);
+    cursor: pointer;
+    min-width: 180px;
+    background: white;
+}
+.inline-compare select:focus { outline: none; border-color: var(--primary-color); }
 
 .species-section { margin-bottom: 1.5rem; }
 .species-section h3 {
@@ -394,7 +413,7 @@ header h1 { font-size: 1.35rem; font-weight: 600; }
     flex-wrap: wrap;
     gap: 0.4rem;
 }
-.external-links { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); }
+.external-links { margin-top: 0; padding-top: 0; border-top: none; }
 
 .ncbi-link {
     display: inline-block;
